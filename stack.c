@@ -27,7 +27,7 @@ t_stack	*init_stack(int max, int **items) // init the stacks
 	return (free(stack), free(a), free(b), NULL);
 }
 
-void	swap_a(t_stack **s)
+void	sa(t_stack **s)
 {
 	int tmp;
 	int i;
@@ -40,7 +40,7 @@ void	swap_a(t_stack **s)
 		(*s)->a->items[i - 1] = tmp;
 	}
 }
-void	swap_b(t_stack **s)
+void	sb(t_stack **s)
 {
 	int tmp;
 	int i;
@@ -53,13 +53,13 @@ void	swap_b(t_stack **s)
 		(*s)->b->items[i - 1] = tmp;
 	}
 }
-void	swap_s(t_stack **s)
+void	ss(t_stack **s)
 {
-	swap_a(s);
-	swap_a(s);
+	sa(s);
+	sb(s);
 }
 
-void	push_a(t_stack **s)
+void	pa(t_stack **s)
 {
 	int	atop;
 	int	btop;
@@ -69,7 +69,7 @@ void	push_a(t_stack **s)
 	if (btop > -1)
 		(*s)->a->items[++atop] = (*s)->b->items[btop--];
 }
-void	push_b(t_stack **s)
+void	pb(t_stack **s)
 {
 	int	atop;
 	int	btop;
@@ -80,7 +80,7 @@ void	push_b(t_stack **s)
 		(*s)->b->items[++btop] = (*s)->a->items[atop--];
 }
 
-void	rot_a(t_stack **s)
+void	ra(t_stack **s)
 {
 	int top;
 	int tmp;
@@ -94,7 +94,7 @@ void	rot_a(t_stack **s)
 		(*s)->a->items[top] = tmp;
 	}
 }
-void	rot_b(t_stack **s)
+void	rb(t_stack **s)
 {
 	int top;
 	int tmp;
@@ -108,13 +108,13 @@ void	rot_b(t_stack **s)
 		(*s)->b->items[top] = tmp;
 	}
 }
-void	rot_r(t_stack **s)
+void	rr(t_stack **s)
 {
-	rot_a(s);
-	rot_b(s);
+	ra(s);
+	rb(s);
 }
 
-void	rrot_a(t_stack **s)
+void	rra(t_stack **s)
 {
 	int top;
 	int	i;
@@ -130,7 +130,7 @@ void	rrot_a(t_stack **s)
 		(*s)->a->items[i] = tmp;
 	}
 }
-void	rrot_b(t_stack **s)
+void	rrb(t_stack **s)
 {
 	int top;
 	int	i;
@@ -146,10 +146,9 @@ void	rrot_b(t_stack **s)
 		(*s)->b->items[i] = tmp;
 	}
 }
-void	rrot_r(t_stack **s)
+void	rrr(t_stack **s)
 {
-	rrot_a(s);
-	rrot_a(s);
+	rra(s);
+	rrb(s);
 }
-
 
