@@ -55,8 +55,8 @@ int	*get_items(char **d, int size)
 		return (NULL);
 	while (i < size)
 	{
-		items[i] = ft_atoi(d[i]);
-		if (!items[i] || (d[i][0] != '-' && items[i] == -1) || check_double(items, i, items[i]))
+		items[i] = ft_atoi(d[size - i - 1]);
+		if (!items[i] || (d[size - i - 1][0] != '-' && items[i] == -1) || check_double(items, i, items[i]))
 			return (free(items), NULL);
 		i++;
 	}

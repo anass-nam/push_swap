@@ -38,6 +38,7 @@ void	sa(t_stack **s)
 		tmp = (*s)->a->items[i];
 		(*s)->a->items[i] = (*s)->a->items[i - 1];
 		(*s)->a->items[i - 1] = tmp;
+		printf("%s\n", __FUNCTION__);
 	}
 }
 void	sb(t_stack **s)
@@ -51,33 +52,31 @@ void	sb(t_stack **s)
 		tmp = (*s)->b->items[i];
 		(*s)->b->items[i] = (*s)->b->items[i - 1];
 		(*s)->b->items[i - 1] = tmp;
+		printf("%s\n", __FUNCTION__);
 	}
 }
 void	ss(t_stack **s)
 {
 	sa(s);
 	sb(s);
+	printf("%s\n", __FUNCTION__);
 }
 
 void	pa(t_stack **s)
 {
-	int	atop;
-	int	btop;
-
-	atop = (*s)->a->top;
-	btop = (*s)->b->top;
-	if (btop > -1)
-		(*s)->a->items[++atop] = (*s)->b->items[btop--];
+	if ((*s)->b->top > -1)
+	{
+		(*s)->a->items[++(*s)->a->top] = (*s)->b->items[(*s)->b->top--];
+		printf("%s\n", __FUNCTION__);
+	}
 }
 void	pb(t_stack **s)
 {
-	int	atop;
-	int	btop;
-
-	atop = (*s)->a->top;
-	btop = (*s)->b->top;
-	if (atop > -1)
-		(*s)->b->items[++btop] = (*s)->a->items[atop--];
+	if ((*s)->a->top > -1)
+	{
+		(*s)->b->items[++(*s)->b->top] = (*s)->a->items[(*s)->a->top--];
+		printf("%s\n", __FUNCTION__);
+	}
 }
 
 void	ra(t_stack **s)
@@ -92,6 +91,7 @@ void	ra(t_stack **s)
 		while (--top)
 			(*s)->a->items[top] = (*s)->a->items[top - 1];
 		(*s)->a->items[top] = tmp;
+		printf("%s\n", __FUNCTION__);
 	}
 }
 void	rb(t_stack **s)
@@ -106,12 +106,14 @@ void	rb(t_stack **s)
 		while (--top)
 			(*s)->b->items[top] = (*s)->b->items[top - 1];
 		(*s)->b->items[top] = tmp;
+		printf("%s\n", __FUNCTION__);
 	}
 }
 void	rr(t_stack **s)
 {
 	ra(s);
 	rb(s);
+	printf("%s\n", __FUNCTION__);
 }
 
 void	rra(t_stack **s)
@@ -124,10 +126,11 @@ void	rra(t_stack **s)
 	if (top > 0)
 	{
 		i = -1;
-		tmp = (*s)->a->items[i];
+		tmp = (*s)->a->items[0];
 		while (++i < top)
 			(*s)->a->items[i] = (*s)->a->items[i + 1];
 		(*s)->a->items[i] = tmp;
+		printf("%s\n", __FUNCTION__);
 	}
 }
 void	rrb(t_stack **s)
@@ -140,15 +143,17 @@ void	rrb(t_stack **s)
 	if (top > 0)
 	{
 		i = -1;
-		tmp = (*s)->b->items[i];
+		tmp = (*s)->b->items[0];
 		while (++i < top)
 			(*s)->b->items[i] = (*s)->b->items[i + 1];
 		(*s)->b->items[i] = tmp;
+		printf("%s\n", __FUNCTION__);
 	}
 }
 void	rrr(t_stack **s)
 {
 	rra(s);
 	rrb(s);
+	printf("%s\n", __FUNCTION__);
 }
 
