@@ -72,6 +72,7 @@ int main(int ac, char const *av[])
 {
 	int *v = get_items((char **)av + 1, ac - 1);
 	t_stack *stack;
+	stack = NULL;
 	if (!v)
 		write(2, ERR, 6);
 	else
