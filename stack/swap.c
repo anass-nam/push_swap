@@ -11,7 +11,7 @@ void	sa(t_stack **s)
 		tmp = (*s)->a->items[i];
 		(*s)->a->items[i] = (*s)->a->items[i - 1];
 		(*s)->a->items[i - 1] = tmp;
-		printf("%s\n", __FUNCTION__);
+		ft_putendl_fd(__FUNCTION__, 1);
 	}
 }
 
@@ -26,7 +26,7 @@ void	sb(t_stack **s)
 		tmp = (*s)->b->items[i];
 		(*s)->b->items[i] = (*s)->b->items[i - 1];
 		(*s)->b->items[i - 1] = tmp;
-		printf("%s\n", __FUNCTION__);
+		ft_putendl_fd(__FUNCTION__, 1);
 	}
 }
 
@@ -34,5 +34,5 @@ void	ss(t_stack **s)
 {
 	sa(s);
 	sb(s);
-	printf("%s\n", __FUNCTION__);
+	ft_putendl_fd(__FUNCTION__, 1);
 }

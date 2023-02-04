@@ -14,7 +14,7 @@ void	rra(t_stack **s)
 		while (++i < top)
 			(*s)->a->items[i] = (*s)->a->items[i + 1];
 		(*s)->a->items[i] = tmp;
-		printf("%s\n", __FUNCTION__);
+		ft_putendl_fd(__FUNCTION__, 1);
 	}
 }
 
@@ -32,7 +32,7 @@ void	rrb(t_stack **s)
 		while (++i < top)
 			(*s)->b->items[i] = (*s)->b->items[i + 1];
 		(*s)->b->items[i] = tmp;
-		printf("%s\n", __FUNCTION__);
+		ft_putendl_fd(__FUNCTION__, 1);
 	}
 }
 
@@ -40,5 +40,5 @@ void	rrr(t_stack **s)
 {
 	rra(s);
 	rrb(s);
-	printf("%s\n", __FUNCTION__);
+	ft_putendl_fd(__FUNCTION__, 1);
 }

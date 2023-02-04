@@ -1,6 +1,10 @@
 #ifndef STACK_H
 #define STACK_H
 
+# include <unistd.h>
+# include <stdlib.h>
+# include "../utils/utils.h"
+
 # define EMPTY -1
 
 typedef struct s_stack_objet

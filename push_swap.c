@@ -19,29 +19,9 @@ static int sort_checker(int *items, int top) // check if sorted in ascending ord
 	return (f);
 }
 
-void	sort_stack(t_stack **stack)
+void	qsort(int *items, int size)
 {
-	int top;
-	int i;
-	int j;
-	int k;
-
-	while ((*stack)->a->top && !sort_checker((*stack)->a->items, (*stack)->a->top))
-	{
-		//(*stack)->a->items[0], (*stack)->a->items[(*stack)->a->top], (*stack)->a->items[(*stack)->a->top - 1]
-		top = (*stack)->a->top;
-		i = (*stack)->a->items[top];
-		j = (*stack)->a->items[top - 1];
-		k = (*stack)->a->items[0];
-		if (i > j && i > k)
-			pb(stack);
-		else if (j > i && j > k)
-			sa(stack);
-		else
-			rra(stack);
-	}
-	while ((*stack)->b->top > -1)
-		pa(stack);
+	
 }
 
 
@@ -74,13 +54,13 @@ int main(int ac, char const *av[])
 	t_stack *stack;
 	stack = NULL;
 	if (!v)
-		write(2, ERR, 6);
+		ft_putendl_fd(ERR, 2);
 	else
 		stack = init_stack(ac - 1, &v);
 	if (stack)
 	{
 		sort_stack(&stack);
-		//print_stack(stack);
+		print_stack(stack);
 		free(stack->a->items);
 		free(stack->b->items);
 		free(stack->a);

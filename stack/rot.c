@@ -12,7 +12,7 @@ void	ra(t_stack **s)
 		while (--top)
 			(*s)->a->items[top] = (*s)->a->items[top - 1];
 		(*s)->a->items[top] = tmp;
-		printf("%s\n", __FUNCTION__);
+		ft_putendl_fd(__FUNCTION__, 1);
 	}
 }
 
@@ -28,7 +28,7 @@ void	rb(t_stack **s)
 		while (--top)
 			(*s)->b->items[top] = (*s)->b->items[top - 1];
 		(*s)->b->items[top] = tmp;
-		printf("%s\n", __FUNCTION__);
+		ft_putendl_fd(__FUNCTION__, 1);
 	}
 }
 
@@ -36,5 +36,5 @@ void	rr(t_stack **s)
 {
 	ra(s);
 	rb(s);
-	printf("%s\n", __FUNCTION__);
+	ft_putendl_fd(__FUNCTION__, 1);
 }

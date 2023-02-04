@@ -8,6 +8,28 @@ static int	ft_isdigit(int c)
 		return (0);
 }
 
+static int	check_double(int *items, int len, int item)
+{
+	while (len--)
+		if (items[len] == item)
+			return (1);
+	return (0);
+}
+
+static int	check_chars(char **d, int size)
+{
+	int i;
+
+	while (size--)
+	{
+		i = 0;
+		while (d[size][i])
+			if (!ft_isdigit(d[size][i++]))
+				return (0);
+	}
+	return (1);
+}
+
 static int	ft_atoi(const char *str)
 {
 	long int	r;
@@ -33,14 +55,6 @@ static int	ft_atoi(const char *str)
 	return (r * s);
 }
 
-static int	check_double(int *items, int len, int item)
-{
-	while (len--)
-		if (items[len] == item)
-			return (1);
-	return (0);
-}
-
 int	*get_items(char **d, int size)
 {
 	int	i;
@@ -50,15 +64,18 @@ int	*get_items(char **d, int size)
 	items = NULL;
 	if (!size)
 		exit(1);
-	items = (int *)malloc(sizeof(int) * size);
-	if (!items)
-		return (NULL);
-	while (i < size)
+	if (check_chars(d, size))
 	{
-		items[i] = ft_atoi(d[size - i - 1]);
-		if (!items[i] || (d[size - i - 1][0] != '-' && items[i] == -1) || check_double(items, i, items[i]))
-			return (free(items), NULL);
-		i++;
+		items = (int *)malloc(sizeof(int) * size);
+		while (i < size)
+		{
+			items[i] = ft_atoi(d[size - i - 1]);
+			if ((!items[i] && d[size - i - 1][0] == '-')
+			|| (d[size - i - 1][0] != '-' && items[i] == -1)
+			|| check_double(items, i, items[i]))
+				return (free(items), NULL);
+			i++;
+		}
 	}
 	return (items);
 }
