@@ -1,37 +1,38 @@
 #ifndef STACK_H
-#define STACK_H
+# define STACK_H
 
 # include <unistd.h>
 # include <stdlib.h>
 # include "../utils/utils.h"
 
 # define EMPTY -1
+# define LESS 0
 
-typedef struct s_stack_objet
+# define SA "sa"
+# define SB "sb"
+# define SS "ss"
+# define PA "pa"
+# define PB "pb"
+# define RA "ra"
+# define RB "rb"
+# define RR "rr"
+# define RRA "rra"
+# define RRB "rrb"
+# define RRR "rrr"
+
+typedef struct s_stack
 {
 	int		*items;
 	int		max;
 	int		top;
-}			t_so;
-
-typedef struct s_stack_holder
-{
-	t_so	*a;
-	t_so	*b;
 }			t_stack;
 
 t_stack	*init_stack(int max, int **items);
 // moves
-void	sa(t_stack **s);
-void	sb(t_stack **s);
-void	ss(t_stack **s);
-void	pa(t_stack **s);
-void	pb(t_stack **s);
-void	ra(t_stack **s);
-void	rb(t_stack **s);
-void	rr(t_stack **s);
-void	rra(t_stack **s);
-void	rrb(t_stack **s);
-void	rrr(t_stack **s);
+void	swap(t_stack **s);
+void	rot(t_stack **s);
+void	rev_rot(t_stack **s);
+void	push(t_stack **src, t_stack **dst);
+void    call(char *o, t_stack **a, t_stack **b);
 
 #endif

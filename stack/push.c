@@ -1,19 +1,15 @@
 #include "stack.h"
 
-void	pa(t_stack **s)
+void	push(t_stack **src, t_stack **dst)
 {
-	if ((*s)->b->top > -1)
-	{
-		(*s)->a->items[++(*s)->a->top] = (*s)->b->items[(*s)->b->top--];
-		ft_putendl_fd(__FUNCTION__, 1);
-	}
-}
+	int	s_top;
+	int d_top;
 
-void	pb(t_stack **s)
-{
-	if ((*s)->a->top > -1)
-	{
-		(*s)->b->items[++(*s)->b->top] = (*s)->a->items[(*s)->a->top--];
-		ft_putendl_fd(__FUNCTION__, 1);
-	}
+	if ((*src)->top == EMPTY)
+		return ;
+	s_top = (*src)->top;
+	d_top = (*dst)->top;
+	(*dst)->items[d_top + 1] = (*src)->items[s_top];
+	(*dst)->top++;
+	(*src)->top--;
 }
