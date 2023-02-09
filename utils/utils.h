@@ -5,6 +5,7 @@
 # include <stdlib.h>
 
 void	ft_putendl_fd(const char *s, int fd);
-int		*get_items(char **d, int size);
+void    err(char *msg);
+int     *parse_items(char const**s_items, int size);
 
 #endif
