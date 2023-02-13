@@ -6,7 +6,7 @@ SRC=$(wildcard *.c) \
 	$(wildcard utils/*.c) \
 	$(wildcard stack/*.c)
 OBJ=$(SRC:.c=.o)
-FLAGS=-Wall -Wextra -Werror
+FLAGS=-g -Wall -Wextra -Werror
 
 all: $(NAME)
 

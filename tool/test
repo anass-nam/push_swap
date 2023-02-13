@@ -1,0 +1,69 @@
+#include <stdio.h>
+#include <stdlib.h>
+void    radix_sort_rev(int *items, int size)
+{
+    int i;
+    int j;
+    int *runk;
+    int *sorted;
+
+    i = 0;
+    runk = (int *)malloc(sizeof(int) * size);
+    sorted = (int *)malloc(sizeof(int) * size);
+    while (i < size)
+    {
+        j = 0;
+        while (j < size)
+        {
+            if (items[i] < items[j])
+                runk[i]++;
+            j++;
+        }
+        i++;
+    }
+    i = 0;
+    while (i < size)
+    {
+        sorted[runk[i]] = items[i];
+        i++;
+    }
+    i = 0;
+    while (i < size)
+    {
+        items[i] = sorted[i];
+        i++;
+    }
+    free(runk);
+    free(sorted);
+}
+int main() {
+    int a[] = {1, 3, 6};
+    radix_sort_rev(a, 3);
+
+    return 0;
+}
+
+/*
+    A="1 2 3"; ./push_swap $A | ./tool/checker_linux $A
+    A="2 3 1"; ./push_swap $A | ./tool/checker_linux $A
+    A="3 1 2"; ./push_swap $A | ./tool/checker_linux $A
+    A="1 3 2"; ./push_swap $A | ./tool/checker_linux $A
+    A="2 1 3"; ./push_swap $A | ./tool/checker_linux $A
+    A="3 2 1"; ./push_swap $A | ./tool/checker_linux $A
+    A="3 2 1"; ./push_swap $A | ./tool/checker_linux $A
+
+>> order >>
+[1] [2] [3]
+ |
+ Top of Stack
+______________________
+[2] [3] [1] => rra          move min
+[3] [1] [2] => ra           move max
+[1] [3] [2] => sa | ra      move max
+[2] [1] [3] => sa           move min
+[3] [2] [1] => ra | sa      move max and min
+[3] [2] [1] => sa | rra     move min
+ 
+
+
+*/

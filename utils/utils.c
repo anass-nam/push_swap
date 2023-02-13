@@ -27,12 +27,15 @@ void    err(char *msg)
     exit(EXIT_FAILURE);
 }
 
-// void    arr_free(void **ptr)
-// {
-//     free(*ptr);
-//     *ptr = NULL;
-// }
-
+int		ft_strcmp(const char *s1, const char *s2)
+{
+	while (*s1 && *s2 && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return ((unsigned char)*s1 - (unsigned char)*s2);
+}
 /*
 	 A																				       B
 	[6] [2] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [1] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [ ] 
@@ -51,4 +54,10 @@ void    err(char *msg)
 		min on bottom: rra
 
 	reverse condition for B
+
+	
+	presented as 3 parts:
+		1. sort A
+		2. sort B
+		3. merge A and B
 */
