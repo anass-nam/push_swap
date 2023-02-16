@@ -23,6 +23,7 @@
 typedef struct s_stack
 {
 	int		*items;
+	int		*rank;
 	int		max;
 	int		top;
 }			t_stack;

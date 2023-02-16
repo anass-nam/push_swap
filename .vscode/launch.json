@@ -8,8 +8,8 @@
             "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/push_swap",
-            "args": ["3","2","1","0"],
+            "program": "${workspaceFolder}/utils/a.out",
+            "args": ["45", "-77", "-8", "87", "9", "0"],
             "stopAtEntry": false,
             "cwd": "${fileDirname}",
             "environment": [],
@@ -29,5 +29,13 @@
             ]
         }
 
+    ],
+    "inputs": [
+        {
+            "id": "ar",
+            "type":"promptString",
+            "description": "args for gdb",
+            "default": ""
+        },
     ]
 }
