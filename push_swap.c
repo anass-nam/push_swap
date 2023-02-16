@@ -11,36 +11,34 @@ static int	sort_checker(int *items, int top) // check if sorted in ascending ord
 	return (0);
 }
 
-static char *decide(int *a, /*int *b,*/ int at/*, int bt*/) // decide what to do with A and B stacks
+static char *decide(int *a, int *b, int at, int bt, int max)
 {
-	if (at == 2)
+	if (at > 0 && bt > 0)
 	{
-		
+		if (a[at] > a[0] && b[bt] < b[0])
+			return (RR);
+		else if (a[at] > a[at - 1] && b[bt] < b[bt - 1])
+			return (SS);
 	}
-	
-	return ("");
-}
-
-static int	*get_rank(int *arr, int size)
-{
-	int *rank;
-	int i;
-	int j;
-
-	rank = (int *)calloc(size, sizeof(int));
-	i = 0;
-	while (i < size)
+	if (at >= max / 2)
 	{
-		j = 0;
-		while (j < size)
-		{
-			if (arr[i] < arr[j])
-				rank[i]++;
-			j++;
-		}
-		i++;
+		if (a[at] > a[at - 1] && a[at] < a[0])
+			return (SA);
+		else if (a[at] >= max / 2)
+			return (RA);
+		else if (a[at] < a[0] && a[at] < a[at - 1])
+			return (PB);
 	}
-	return (rank);
+	else if (bt >= 0)
+	{
+		if (b[bt] < b[bt - 1] && b[bt] > b[0])
+			return (SA);
+		else if (!bt || b[bt] > b[0])
+			return (PA);
+		else if (bt > 0 && b[bt] < b[0])
+			return (RB);
+	}
+	return (NULL);
 }
 // print stack
 void	print_stack(t_stack *stack)
@@ -61,12 +59,11 @@ int main(int ac, char const *av[])
 
 	items = parse_items(av + 1, ac - 1);
 	a = init_stack(ac - 1, &items);
-	a->rank = get_rank(items, ac - 1);
 	b = init_stack(ac - 1, NULL);
 	// print_stack(a);
-	while (sort_checker(a->items, a->top) || a->max - a->top != 1)
-		call(decide(a->items, a->top), &a, &b);
-	// print_stack(a);
+	while (sort_checker(a->items, a->top) || b->top > -1)
+		call(decide(a->items, b->items, a->top, b->top, a->max), &a, &b);
+	print_stack(a);
 	return 0;
 }
 

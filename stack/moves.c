@@ -8,7 +8,9 @@ static void both(void (*f)(t_stack **), t_stack **a, t_stack **b)
 
 void    call(char *o, t_stack **a, t_stack **b)
 {
-    if (!ft_strcmp(o, "sa"))
+	if (!o)
+		return;
+    else if (!ft_strcmp(o, "sa"))
         swap(a);
     else if (!ft_strcmp(o, "sb"))
         swap(b);

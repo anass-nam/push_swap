@@ -22,7 +22,7 @@ void	ft_putendl_fd(const char *s, int fd)
 
 void    err(char *msg)
 {
-	ft_putstr_fd("Error", 2);
+	ft_putstr_fd("Error: ", 2);
     ft_putendl_fd(msg, 2);
     exit(EXIT_FAILURE);
 }
@@ -36,28 +36,3 @@ int		ft_strcmp(const char *s1, const char *s2)
 	}
 	return ((unsigned char)*s1 - (unsigned char)*s2);
 }
-/*
-	 A																				       B
-	[6] [2] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [ ] [1] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [ ] 
-	[4] [6] [6] [4] [ ] [ ] [ ] [ ] [ ] [2] [2] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [ ] 
-	[3] [4] [4] [3] [3] [1] [ ] [4] [3] [3] [3] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [ ] 
-	[1] [3] [3] [1] [1] [3] [3] [3] [4] [4] [4] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [ ] 
-	[5] [1] [1] [5] [5] [5] [5] [5] [5] [5] [5] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [ ] 
-	[2] [5] [5] [6] [6] [6] [6] [6] [6] [6] [6] [] [] [] [] [] [] [] [] [] [] [] [] [] [] [ ] 
-	check for order:
-		*top = *(top - 1) + 1: sa
-		*top = *bottom - 1: ra
-		*bottom = *top + 1: rra
-	check for min:
-		min on top: pb
-		min on top - 1: sa
-		min on bottom: rra
-
-	reverse condition for B
-
-	
-	presented as 3 parts:
-		1. sort A
-		2. sort B
-		3. merge A and B
-*/

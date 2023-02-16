@@ -39,6 +39,31 @@ static int	    parse_int(const char *str)
 	return (r * s);
 }
 
+static int	*get_rank(int *arr, int size)
+{
+	int *rank;
+	int i;
+	int j;
+
+	rank = (int *)calloc(size, sizeof(int));
+	if (!rank)
+        err("malloc failed");
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			if (arr[i] < arr[j])
+				rank[i]++;
+			j++;
+		}
+		i++;
+	}
+	free(arr);
+	return (rank);
+}
+
 int     *parse_items(char const**s_items, int size)
 {
     int *items;
@@ -51,5 +76,5 @@ int     *parse_items(char const**s_items, int size)
     while (++i < size)
         items[i] = parse_int(s_items[size - i - 1]);
     check_double(items, size);
-    return items;
+    return get_rank(items, size);
 }
