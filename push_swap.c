@@ -15,18 +15,20 @@ static int	sort_checker(int *items, int top) // check if sorted in ascending ord
 	int i;
 
 	i = -1;
-	while (++i < top)
+	while (++i <= top)
 		if (items[i] < items[i + 1])
 			return (i + 1);
 	return (0);
 }
 
-static char *decide(int *a, int *b, int at, int bt, int max)
+// static char *decide(int *a, int *b, int at, int bt, int max)
+static char *decide(int *a, int at)
 {
 	char	*op;
 
 	print_stack(a, at);
-	// print_stack(b, bt);	
+	// print_stack(b, bt);
+	op = NULL;
 	if (a[at] > a[at - 1] && a[at - 1] > a[0])
 		op = RRA;
 	else if (a[at] > a[at - 1] && a[at - 1] < a[0])
@@ -47,8 +49,9 @@ int main(int ac, char const *av[])
 	items = parse_items(av + 1, ac - 1);
 	a = init_stack(ac - 1, &items);
 	b = init_stack(ac - 1, NULL);
-	while (sort_checker(a->items, a->top) || b->top > -1)
-		call(decide(a->items, b->items, a->top, b->top, a->max), &a, &b);
+	while (sort_checker(a->items, a->top))
+		call(decide(a->items, a->top), &a, &b);
+		// call(decide(a->items, b->items, a->top, b->top, a->max), &a, &b);
 	// print_stack(a->items, ac - 2);
 	return 0;
 }
