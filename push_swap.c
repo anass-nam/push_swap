@@ -23,34 +23,19 @@ static int	sort_checker(int *items, int top) // check if sorted in ascending ord
 
 static char *decide(int *a, int *b, int at, int bt, int max)
 {
-	// print_stack(a, at);
+	char	*op;
+
+	print_stack(a, at);
 	// print_stack(b, bt);	
-	if (at > 0 && bt > 0)
-	{
-		if (a[at] > a[0] && b[bt] < b[0])
-			return (RR);
-		else if (a[at] > a[at - 1] && b[bt] < b[bt - 1])
-			return (SS);
-	}
-	if (at >= max / 2 && sort_checker(a, at))
-	{
-		if (a[at] > a[at - 1] && a[at] < a[0])
-			return (SA);
-		else if (a[at] < a[0] && a[at] < a[at - 1] && a[at] <= max / 2)
-			return (PB);
-		else if (a[at] > a[0] && a[at] > max / 2)
-			return (RA);
-	}
-	else if (bt >= 0)
-	{
-		if (b[bt] < b[bt - 1] && b[bt] > b[0])
-			return (SA);
-		else if (!bt || b[bt] > b[0])
-			return (PA);
-		else if (bt > 0 && b[bt] < b[0])
-			return (RB);
-	}
-	return (NULL);
+	if (a[at] > a[at - 1] && a[at - 1] > a[0])
+		op = RRA;
+	else if (a[at] > a[at - 1] && a[at - 1] < a[0])
+		op = RA;
+	else if (a[at] < a[at - 1] && a[at - 1] > a[0])
+		op = RRA;
+	else if (a[at] < a[at - 1] && a[at - 1] < a[0])
+		op = SA;
+	return (op);
 }
 
 int main(int ac, char const *av[])
@@ -62,12 +47,25 @@ int main(int ac, char const *av[])
 	items = parse_items(av + 1, ac - 1);
 	a = init_stack(ac - 1, &items);
 	b = init_stack(ac - 1, NULL);
-	// print_stack(a);
 	while (sort_checker(a->items, a->top) || b->top > -1)
 		call(decide(a->items, b->items, a->top, b->top, a->max), &a, &b);
-	print_stack(a->items, ac - 2);
+	// print_stack(a->items, ac - 2);
 	return 0;
 }
 
 
 
+/*
+
+1 3 2 ----> a[at] < a[at - 1] && a[at - 1] > a[0]
+
+
+
+****************************************************1 mv
+3 2 1 ----> a[at] > a[at - 1] && a[at - 1] > a[0]		
+3 1 2 ----> a[at] > a[at - 1] && a[at - 1] < a[0]	RA
+2 3 1 ----> a[at] < a[at - 1] && a[at - 1] > a[0]	RRA
+2 1 3 ----> a[at] < a[at - 1] && a[at - 1] < a[0]	SA
+
+1 2 3 ----> a[at] < a[at - 1] && a[at - 1] < a[0]	--
+*/

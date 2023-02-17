@@ -15,12 +15,11 @@ void print(int *arr, int size, int o)
         format = "%d";
         join = " ";
     }
-
     i = 0;
     while (i < size) {
         printf(format, arr[i++]);
         if (i < size)
-            printf(join);
+            printf("%s", join);
     }
     printf("\n");
 }
@@ -33,14 +32,9 @@ int main(int ac, char **av)
     int *result;
     int max;
     int count;
-    int format;
 
-    if (ac == 3)
-        format = 0;
-    else if (ac == 4)
-        format = atoi(av[3]);
-    else
-        return (1);
+    if (ac != 3)
+		return (1);
     max = atoi(av[1]);
     count = atoi(av[2]);
     arr = (int *) malloc(max * sizeof(int));
@@ -55,7 +49,8 @@ int main(int ac, char **av)
         result[i] = arr[random];
         arr[random] = arr[max - i - 1];
     }
-    print(result, count, format);
+    print(result, count, 0);
+    print(result, count, 1);
     free(arr);
     free(result);
     return 0;
