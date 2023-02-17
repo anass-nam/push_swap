@@ -1,6 +1,6 @@
-*.dSYM/
 .vscode/
-push_swap
+*.dSYM/
 *.o
 a.out
+push_swap
 .DS_Store

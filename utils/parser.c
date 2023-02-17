@@ -54,7 +54,7 @@ static int	*get_rank(int *arr, int size)
 		j = 0;
 		while (j < size)
 		{
-			if (arr[i] < arr[j])
+			if (arr[i] > arr[j])
 				rank[i]++;
 			j++;
 		}
