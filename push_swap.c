@@ -22,44 +22,7 @@ static int	sort_checker(int *items, int top) // check if sorted in ascending ord
 }
 
 // static char *decide(int *a, int *b, int at, int bt, int max)
-static char *decide(t_stack *a, t_stack *b)
-{
-	char	*op;
 
-	print_stack(a->items, a->top);
-	print_stack(b->items, b->top);
-	op = NULL;
-	if (a->max == 3)
-	{
-		if (a->items[a->top] > a->items[a->top - 1] && a->items[a->top] > a->items[0])
-			op = RA;
-		else
-			op = SA;
-		return (op);
-	}
-	
-	if (a->top > 0 && b->top > 0)
-	{
-		if (a->items[a->top] > a->items[a->top - 1] && a->items[a->top] > a->items[0]
-			&& b->items[b->top] < b->items[b->top - 1] && b->items[b->top] < b->items[0])
-			return (RR);
-		else if (a->items[a->top - 1] > a->items[a->top] && a->items[a->top - 1] > a->items[0]
-			&& b->items[b->top - 1] < b->items[b->top] && b->items[b->top - 1] < b->items[0])
-			return (SS);
-	}
-	
-	if (a->items[a->top] > a->items[a->top - 1] && a->items[a->top] > a->items[0])
-			op = RA;
-	else if ((a->items[a->top] < a->max / 2 || (a->items[a->top] < a->items[a->top - 1] && a->items[a->top] < a->items[0])) && sort_checker(a->items, a->top))
-		op = PB;
-	else if (!sort_checker(a->items, a->top))
-		op = PA;
-	else
-		op = SA;
-	
-	
-	return (op);
-}
 
 int main(int ac, char const *av[])
 {
