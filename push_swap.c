@@ -10,16 +10,16 @@ void	print_stack(int *stack, int size)
 	printf("\n");
 }
 
-static int	sort_checker(int *items, int top) // check if sorted in ascending order
-{
-	int i;
+// static int	sort_checker(int *items, int top) // check if sorted in ascending order
+// {
+// 	int i;
 
-	i = -1;
-	while (++i < top)
-		if (items[i] < items[i + 1])
-			return (i + 1);
-	return (0);
-}
+// 	i = -1;
+// 	while (++i < top)
+// 		if (items[i] < items[i + 1])
+// 			return (i + 1);
+// 	return (0);
+// }
 
 // static char *decide(int *a, int *b, int at, int bt, int max)
 
@@ -33,10 +33,11 @@ int main(int ac, char const *av[])
 	items = parse_items(av + 1, ac - 1);
 	a = init_stack(ac - 1, &items);
 	b = init_stack(ac - 1, NULL);
-	while (sort_checker(a->items, a->top) || b->top > -1)
+	while (a->top >= a->max / 2)
 		call(decide(a, b), &a, &b);
 		// call(decide(a->items, b->items, a->top, b->top, a->max), &a, &b);
-	print_stack(a->items, ac - 2);
+	print_stack(a->items, a->top);
+	print_stack(b->items, b->top);
 	return 0;
 }
 

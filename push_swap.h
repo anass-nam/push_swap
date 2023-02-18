@@ -8,4 +8,6 @@
 
 # define ERR "Erorr\n"
 
+char    *decide(t_stack *a, t_stack *b);
+
 #endif
