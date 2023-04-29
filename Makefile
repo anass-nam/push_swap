@@ -1,10 +1,6 @@
 NAME=push_swap
-HEADERS=push_swap.h \
-		utils/utils.h \
-		stack/stack.h
-SRC=$(wildcard *.c) \
-	$(wildcard utils/*.c) \
-	$(wildcard stack/*.c)
+HEADER=$(NAME:=.h)
+SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
 FLAGS=-g -Wall -Wextra -Werror
 
@@ -12,10 +8,10 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Compiling..."
-	@cc $(FLAGS) $(OBJ) -o $(NAME)
+	@cc $(FLAGS) $(OBJ) -lft -o $(NAME)
 	@echo "Done!"
 
-%.o: %.c $(HEADERS)
+%.o: %.c $(HEADER)
 	@cc $(FLAGS) -c $< -o $@
 
 clean:

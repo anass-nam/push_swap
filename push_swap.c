@@ -1,59 +1,66 @@
 #include "push_swap.h"
 
-void	print_stack(int *stack, int size)
+static void print_stack(t_stack *s)
 {
 	int i;
 
-	i = -1;
-	while (++i <= size)
-		printf("%d ", stack[i]);
-	printf("\n");
+	i = 0;
+	while (i <= s->first)
+	{
+		ft_putnbr_fd(s->items[i], STDOUT_FILENO);
+		ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-// static int	sort_checker(int *items, int top) // check if sorted in ascending order
-// {
-// 	int i;
-
-// 	i = -1;
-// 	while (++i < top)
-// 		if (items[i] < items[i + 1])
-// 			return (i + 1);
-// 	return (0);
-// }
-
-// static char *decide(int *a, int *b, int at, int bt, int max)
-
-
-int main(int ac, char const *av[])
+static void	ps_init(t_ps *stack, int count, char const **args)
 {
-	int *items;
-	t_stack *a;
-	t_stack *b;
+	stack->a->items = parse_args(count, args);
+	if (stack->a->items == NULL)
+	{
+		ft_putendl_fd(ERR, STDOUT_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	stack->a->first = count - 1;
+	stack->b->items = (int *)malloc(count * sizeof(int));
+	if (stack->b->items == NULL)
+	{
+		free(stack->a->items);
+		ft_putendl_fd(ERR, STDOUT_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	stack->b->first = -1;
+}
 
-	items = parse_items(av + 1, ac - 1);
-	a = init_stack(ac - 1, &items);
-	b = init_stack(ac - 1, NULL);
-	while (a->top >= a->max / 2)
-		call(decide(a, b), &a, &b);
-		// call(decide(a->items, b->items, a->top, b->top, a->max), &a, &b);
-	print_stack(a->items, a->top);
-	print_stack(b->items, b->top);
+static void	sort_stack(t_ps *stack)
+{
+	int	*lis;
+	int i;
+
+	lis = get_lis(stack->a->items, stack->a->first + 1);
+	i = 0;
+	while (lis[i] != -1)
+	{
+		while (lis[i]--)
+			call(stack, PB);
+		call(stack, RA);
+		i++;
+	}	
+}
+
+int main(int ac, char const **av)
+{
+	t_ps	stack;
+	t_stack	a;
+	t_stack	b;
+
+	stack.a = &a;
+	stack.b = &b;
+	ps_init(&stack, ac - 1, av + 1);
+	print_stack(stack.a);
+	sort_stack(&stack);
+	print_stack(stack.a);
+	print_stack(stack.b);
 	return 0;
 }
-
-
-
-/*
-
-1 3 2 ----> a[at] < a[at - 1] && a[at - 1] > a[0]
-
-
-
-****************************************************1 mv
-3 2 1 ----> a[at] > a[at - 1] && a[at - 1] > a[0]		
-3 1 2 ----> a[at] > a[at - 1] && a[at - 1] < a[0]	RA
-2 3 1 ----> a[at] < a[at - 1] && a[at - 1] > a[0]	RRA
-2 1 3 ----> a[at] < a[at - 1] && a[at - 1] < a[0]	SA
-
-1 2 3 ----> a[at] < a[at - 1] && a[at - 1] < a[0]	--
-*/
