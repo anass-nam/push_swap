@@ -41,7 +41,7 @@ typedef unsigned char t_byte;
 
 int		*parse_args(int count, char const **args);
 void	call(t_ps *stack, t_byte move);
-int		*get_lis(int *arr, int n);
+int		*get_lis(int *arr, int len);
 
 
 #endif

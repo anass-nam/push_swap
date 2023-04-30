@@ -76,22 +76,45 @@ static void		construct_lis(t_lis *lis, int *arr, int len)
 			lis->tail[0] = (s + i) % len;
 		else if (arr[(s + i) % len] > arr[lis->tail[lis->len - 1]])
 		{
-			lis->prev[i] = lis->tail[lis->len - 1];
+			lis->prev[(s + i) % len] = lis->tail[lis->len - 1];
 			lis->tail[lis->len++] = (s + i) % len;
 		}
 		else
 		{
-			pos = get_pos(arr, lis->tail, -1, len -1, arr[(s + i) % len]);
-			lis->prev[i] = lis->tail[pos - 1];
+			pos = get_pos(arr, lis->tail, -1, lis->len - 1, arr[(s + i) % len]);
+			lis->prev[(s + i) % len] = lis->tail[pos - 1];
 			lis->tail[pos] = (s + i) % len;
 		}
 	}
 }
 
+static int		*finalize_lis(t_lis *lis)
+{
+	int		*lis_indices;
+	int		i;
+	int		j;
+
+	lis_indices = (int*) malloc((lis->len) * sizeof(int));
+	if (lis_indices == NULL)
+		return (NULL);
+	i = lis->len - 1;
+	j = lis->tail[i];
+	lis_indices[i + 1] = -1;
+	while (i >= 0)
+	{
+		lis_indices[i] = j;
+		j = lis->prev[j];
+		i--;
+	}
+	return (lis_indices);
+}
+
 int *get_lis(int *arr, int len)
 {
 	t_lis	**lis;
+	int		*valid_lis;
 	int		i;
+	int		b_lis;
 
 	lis = init_lis(len);
 	if (lis == NULL)
@@ -99,25 +122,31 @@ int *get_lis(int *arr, int len)
 	i = -1;
 	while (++i < len)
 		construct_lis(lis[i], arr, len);
-	i = 0;
-	while (i < len)
-	{
-		ft_putnbr_fd(lis[i]->len, STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		i++;
-	}
+	i = -1;
+	b_lis = 0;
+	while (++i < len)
+		if (lis[i]->len > lis[b_lis]->len)
+			b_lis = i;
+	valid_lis = finalize_lis(lis[b_lis]);
 	free_lis(lis, len);
-
-	return (NULL);
+	return (valid_lis);
 }
 
-int main(void)
-{
-    int arr[] = {-4,4,1,2,-6,6,-2,-1,0,5,11,8,7,9};
-    int len = sizeof(arr)/sizeof(arr[0]);
-    get_lis(arr, len);
-    return 0;
-}
+// int main(void)
+// {
+//     int arr[] = {8,0,4,2,3,9,5,6,7};
+//     int len = sizeof(arr)/sizeof(arr[0]);
+//     int *l = get_lis(arr, len);
+// 	for (size_t i = 0; l[i] != -1; i++)
+// 	{
+// 		ft_putnbr_fd(l[i], STDOUT_FILENO);
+// 		ft_putstr_fd(" -> ", STDOUT_FILENO);
+// 		ft_putnbr_fd(arr[l[i]], STDOUT_FILENO);
+// 		ft_putchar_fd('\n', STDOUT_FILENO);
+// 	}
+	
+//     return 0;
+// }
 
 
 

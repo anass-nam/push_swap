@@ -40,13 +40,7 @@ static void	sort_stack(t_ps *stack)
 
 	lis = get_lis(stack->a->items, stack->a->first + 1);
 	i = 0;
-	while (lis[i] != -1)
-	{
-		while (lis[i]--)
-			call(stack, PB);
-		call(stack, RA);
-		i++;
-	}	
+		
 }
 
 int main(int ac, char const **av)
