@@ -20,7 +20,7 @@
 typedef struct s_stack
 {
 	int	*items;
-	int	first;
+	int	top;
 }	t_stack;
 
 typedef struct s_ps
@@ -41,7 +41,7 @@ typedef unsigned char t_byte;
 
 int		*parse_args(int count, char const **args);
 void	call(t_ps *stack, t_byte move);
-int		*get_lis(int *arr, int len);
+t_byte	*calculate(int *arr, int len);
 
 
 #endif

@@ -18,13 +18,13 @@ int	*parse_args(int count, char const **args)
 	if (items == NULL)
 		return (NULL);
 	i = 0;
-	while (i < count)
+	while (count--)
 	{
-		if (isvalid(args[i]) == 0 || *args[i] == 0)
+		if (*args[i] == 0 || isvalid(args[i]) == 0)
 			return (free(items), NULL);
-		items[i] = ft_atoi(args[i]);
-		if ((*args[i] == '-' && items[i] == 0)
-			|| (*args[i] != '-' && items[i] == -1))
+		items[count] = ft_atoi(args[i]);
+		if ((*args[i] == '-' && items[count] == 0)
+			|| (*args[i] != '-' && items[count] == -1))
 			return (free(items), NULL);
 		i++;
 	}

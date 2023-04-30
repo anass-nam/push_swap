@@ -18,7 +18,7 @@ static void	rotate(t_stack *stack, t_byte d)
 		{
 			tmp = stack->items[stack->top];
 			while (++i < stack->top)
-				stack->items[i + 1] = stack->items[i];
+				stack->items[stack->top - i] = stack->items[stack->top - i - 1];
 			stack->items[0] = tmp;
 		}
 		else

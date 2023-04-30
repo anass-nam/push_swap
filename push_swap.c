@@ -5,7 +5,7 @@ static void print_stack(t_stack *s)
 	int i;
 
 	i = 0;
-	while (i <= s->first)
+	while (i <= s->top)
 	{
 		ft_putnbr_fd(s->items[i], STDOUT_FILENO);
 		ft_putchar_fd(' ', STDOUT_FILENO);
@@ -22,7 +22,7 @@ static void	ps_init(t_ps *stack, int count, char const **args)
 		ft_putendl_fd(ERR, STDOUT_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	stack->a->first = count - 1;
+	stack->a->top = count - 1;
 	stack->b->items = (int *)malloc(count * sizeof(int));
 	if (stack->b->items == NULL)
 	{
@@ -30,17 +30,25 @@ static void	ps_init(t_ps *stack, int count, char const **args)
 		ft_putendl_fd(ERR, STDOUT_FILENO);
 		exit(EXIT_FAILURE);
 	}
-	stack->b->first = -1;
+	stack->b->top = -1;
 }
 
 static void	sort_stack(t_ps *stack)
 {
-	int	*lis;
+	t_byte	*lis_moves;
 	int i;
+	int l;
 
-	lis = get_lis(stack->a->items, stack->a->first + 1);
+	lis_moves = calculate(stack->a->items, stack->a->top + 1);
 	i = 0;
-		
+	l = stack->a->top + 1;
+	while (i < l)
+	{
+		call(stack, lis_moves[i]);
+		print_stack(stack->a);
+		print_stack(stack->b);
+		i++;
+	}
 }
 
 int main(int ac, char const **av)

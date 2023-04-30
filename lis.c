@@ -7,7 +7,7 @@ static int	get_pos(int a[], int t[], int l, int r, int v)
 	while (r - l > 1)
 	{
 		m = l + (r - l) / 2;
-		if (a[t[m]] >= v)
+		if (a[t[m]] <= v)
 			r = m;
 		else
 			l = m;
@@ -72,9 +72,9 @@ static void		construct_lis(t_lis *lis, int *arr, int len)
 	i = 0;
 	while (++i < len)
 	{
-		if (arr[(s + i) % len] < arr[lis->tail[0]])
+		if (arr[(s + i) % len] > arr[lis->tail[0]])
 			lis->tail[0] = (s + i) % len;
-		else if (arr[(s + i) % len] > arr[lis->tail[lis->len - 1]])
+		else if (arr[(s + i) % len] < arr[lis->tail[lis->len - 1]])
 		{
 			lis->prev[(s + i) % len] = lis->tail[lis->len - 1];
 			lis->tail[lis->len++] = (s + i) % len;
@@ -88,24 +88,42 @@ static void		construct_lis(t_lis *lis, int *arr, int len)
 	}
 }
 
+void	rotate_lis(int *lis, int len)
+{
+	int	i;
+	int	tmp;
+
+	i = len;
+	tmp = lis[i];
+	while (i > 1)
+	{
+		lis[i] = lis[i - 1];
+		i--;
+	}
+	lis[i] = tmp;
+}
+
 static int		*finalize_lis(t_lis *lis)
 {
 	int		*lis_indices;
 	int		i;
 	int		j;
 
-	lis_indices = (int*) malloc((lis->len) * sizeof(int));
+	lis_indices = (int*) malloc((lis->len + 2) * sizeof(int));
 	if (lis_indices == NULL)
 		return (NULL);
-	i = lis->len - 1;
-	j = lis->tail[i];
-	lis_indices[i + 1] = -1;
-	while (i >= 0)
+	i = 1;
+	j = lis->tail[lis->len - 1];
+	lis_indices[0] = lis->len;
+	lis_indices[lis->len + 1] = -1;
+	while (i <= lis->len)
 	{
 		lis_indices[i] = j;
 		j = lis->prev[j];
-		i--;
+		i++;
 	}
+	while (lis_indices[--i] > lis_indices[0])
+		rotate_lis(lis_indices, lis->len);
 	return (lis_indices);
 }
 
@@ -132,19 +150,44 @@ int *get_lis(int *arr, int len)
 	return (valid_lis);
 }
 
+t_byte	*calculate(int *arr, int len)
+{
+	t_byte	*moves;
+	int		*lis;
+	int		i;
+	int		j;
+
+	lis = get_lis(arr, len);
+	if (lis == NULL)
+		return (NULL);
+	moves = (t_byte *)malloc(sizeof(t_byte) * len);
+	if (moves == NULL)
+		return (free(lis), NULL);
+	i = 1;
+	j = 0;
+	while (j < len)
+	{
+		if (len - j - 1 == lis[i])
+		{
+			moves[j] = RA;
+			i++;
+		}
+		else if (lis[i] == -1)
+			moves[j] = 0;
+		else
+			moves[j] = PB;
+		j++;
+	}
+	free(lis);
+	return (moves);
+}
+
 // int main(void)
-// {
-//     int arr[] = {8,0,4,2,3,9,5,6,7};
+// {				// 8 7 6 5 3 2 0
+//     // int arr[] = {8,0,4,2,3,9,5,6,7};
+// 	int arr[] = {7,6,5,9,3,2,4,0,8};
 //     int len = sizeof(arr)/sizeof(arr[0]);
-//     int *l = get_lis(arr, len);
-// 	for (size_t i = 0; l[i] != -1; i++)
-// 	{
-// 		ft_putnbr_fd(l[i], STDOUT_FILENO);
-// 		ft_putstr_fd(" -> ", STDOUT_FILENO);
-// 		ft_putnbr_fd(arr[l[i]], STDOUT_FILENO);
-// 		ft_putchar_fd('\n', STDOUT_FILENO);
-// 	}
-	
+//     calculate(arr, len);
 //     return 0;
 // }
 
