@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static int	get_pos(int a[], int t[], int l, int r, int v)
+static int		get_pos(int a[], int t[], int l, int r, int v)
 {
 	int	m;
 
@@ -16,7 +16,7 @@ static int	get_pos(int a[], int t[], int l, int r, int v)
     return (r);
 }
 
-static void free_lis(t_lis **lis, int last)
+static void		free_lis(t_lis **lis, int last)
 {
 	int	i;
 
@@ -88,99 +88,70 @@ static void		construct_lis(t_lis *lis, int *arr, int len)
 	}
 }
 
-void	rotate_lis(int *lis, int len)
+static void		rotate_lis(t_array *lis)
 {
 	int	i;
 	int	tmp;
 
-	i = len;
-	tmp = lis[i];
-	while (i > 1)
+	i = lis->size - 1;
+	tmp = lis->items[i];
+	while (i > 0)
 	{
-		lis[i] = lis[i - 1];
+		lis->items[i] = lis->items[i - 1];
 		i--;
 	}
-	lis[i] = tmp;
+	lis->items[i] = tmp;
 }
 
-static int		*finalize_lis(t_lis *lis)
+static t_array	*finalize_lis(t_lis *lis)
 {
-	int		*lis_indices;
+	t_array	*lis_indices;
 	int		i;
 	int		j;
 
-	lis_indices = (int*) malloc((lis->len + 2) * sizeof(int));
+	lis_indices = (t_array *) malloc(sizeof(t_array));
 	if (lis_indices == NULL)
 		return (NULL);
-	i = 1;
+	lis_indices->items = (int*) malloc((lis->len) * sizeof(int));
+	if (lis_indices->items == NULL)
+		return (free(lis_indices), NULL);
+	i = 0;
 	j = lis->tail[lis->len - 1];
-	lis_indices[0] = lis->len;
-	lis_indices[lis->len + 1] = -1;
-	while (i <= lis->len)
+	lis_indices->size = lis->len;
+	while (i < lis->len)
 	{
-		lis_indices[i] = j;
+		lis_indices->items[i] = j;
 		j = lis->prev[j];
 		i++;
 	}
-	while (lis_indices[--i] > lis_indices[0])
-		rotate_lis(lis_indices, lis->len);
+	while (lis_indices->items[lis->len - 1] > lis_indices->items[0])
+		rotate_lis(lis_indices);
 	return (lis_indices);
 }
 
-int *get_lis(int *arr, int len)
+t_array *get_lis(t_array *arr)
 {
 	t_lis	**lis;
-	int		*valid_lis;
+	t_array	*valid_lis;
 	int		i;
 	int		b_lis;
 
-	lis = init_lis(len);
+	lis = init_lis(arr->size);
 	if (lis == NULL)
 		return (NULL);
 	i = -1;
-	while (++i < len)
-		construct_lis(lis[i], arr, len);
+	while (++i < arr->size)
+		construct_lis(lis[i], arr->items, arr->size);
 	i = -1;
 	b_lis = 0;
-	while (++i < len)
+	while (++i < arr->size)
 		if (lis[i]->len > lis[b_lis]->len)
 			b_lis = i;
 	valid_lis = finalize_lis(lis[b_lis]);
-	free_lis(lis, len);
+	free_lis(lis, arr->size);
 	return (valid_lis);
 }
 
-t_byte	*calculate(int *arr, int len)
-{
-	t_byte	*moves;
-	int		*lis;
-	int		i;
-	int		j;
-
-	lis = get_lis(arr, len);
-	if (lis == NULL)
-		return (NULL);
-	moves = (t_byte *)malloc(sizeof(t_byte) * len);
-	if (moves == NULL)
-		return (free(lis), NULL);
-	i = 1;
-	j = 0;
-	while (j < len)
-	{
-		if (len - j - 1 == lis[i])
-		{
-			moves[j] = RA;
-			i++;
-		}
-		else if (lis[i] == -1)
-			moves[j] = 0;
-		else
-			moves[j] = PB;
-		j++;
-	}
-	free(lis);
-	return (moves);
-}
 
 // int main(void)
 // {				// 8 7 6 5 3 2 0
