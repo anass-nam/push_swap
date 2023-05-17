@@ -87,5 +87,5 @@ void	call(t_ps *stack, t_byte move)
 		push(stack->b, stack->a);
 	if (move & PB)
 		push(stack->a, stack->b);
-	print_move(0);
+	print_move(move);
 }

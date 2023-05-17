@@ -1,21 +1,5 @@
 #include "push_swap.h"
 
-static int		get_pos(int a[], int t[], int l, int r, int v)
-{
-	int	m;
-
-	while (r - l > 1)
-	{
-		m = l + (r - l) / 2;
-		if (a[t[m]] <= v)
-			r = m;
-		else
-			l = m;
-	}
-
-    return (r);
-}
-
 static void		free_lis(t_lis **lis, int last)
 {
 	int	i;
@@ -88,21 +72,6 @@ static void		construct_lis(t_lis *lis, int *arr, int len)
 	}
 }
 
-static void		rotate_lis(t_array *lis)
-{
-	int	i;
-	int	tmp;
-
-	i = lis->size - 1;
-	tmp = lis->items[i];
-	while (i > 0)
-	{
-		lis->items[i] = lis->items[i - 1];
-		i--;
-	}
-	lis->items[i] = tmp;
-}
-
 static t_array	*finalize_lis(t_lis *lis)
 {
 	t_array	*lis_indices;
@@ -124,8 +93,6 @@ static t_array	*finalize_lis(t_lis *lis)
 		j = lis->prev[j];
 		i++;
 	}
-	while (lis_indices->items[lis->len - 1] > lis_indices->items[0])
-		rotate_lis(lis_indices);
 	return (lis_indices);
 }
 
@@ -151,17 +118,3 @@ t_array *get_lis(t_array *arr)
 	free_lis(lis, arr->size);
 	return (valid_lis);
 }
-
-
-// int main(void)
-// {				// 8 7 6 5 3 2 0
-//     // int arr[] = {8,0,4,2,3,9,5,6,7};
-// 	int arr[] = {7,6,5,9,3,2,4,0,8};
-//     int len = sizeof(arr)/sizeof(arr[0]);
-//     calculate(arr, len);
-//     return 0;
-// }
-
-
-
-

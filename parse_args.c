@@ -17,7 +17,7 @@ static int	isvalid_arg(char const *arg)
 			return (0);
 		i++;
 	}
-	return (1);
+	return (i);
 }
 
 static char	*join_args(int count, char const **args)
