@@ -26,10 +26,16 @@ static t_byte issorted(t_array *arr)
 	return (1);
 }
 
+static int	check_prev(int *tail, int *arr, int pos, int arr_size)
+{
+	
+}
+
 static void	sort_stack(t_ps *stack, t_byte *moves)
 {
 	int	i;
-	int	*pos;
+	int	*tails;
+	int	pos;
 
 
 	if (moves == NULL)
@@ -38,13 +44,20 @@ static void	sort_stack(t_ps *stack, t_byte *moves)
 	while (i--)
 		call(stack, moves[i]);
 	free(moves);
-	pos = (int *)malloc((stack->b->top + 1) * sizeof(int));
+	tails = (int *)malloc((stack->b->top + 1) * sizeof(int));
 	while (++i <= stack->b->top)
-		pos[i] = stack->a->items[get_pos2(stack->a->items, -1, stack->a->top, stack->b->items[i])];
+	{
+		pos = get_pos2(stack->a->items, -1, stack->a->top, stack->b->items[i]);
+		tails[i] = check_prev(tails, stack->a->items, pos, stack->b->top + 1);
+		ft_putnbr_fd(stack->b->items[i], STDOUT_FILENO);
+		ft_putstr_fd(" -> ", STDOUT_FILENO);
+		ft_putnbr_fd(tails[i], STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
 	i--;
 	while (stack->b->top > -1)
 	{
-		if (stack->a->items[0] == pos[i])
+		if (stack->a->items[0] == tails[i] && i > -1)
 		{
 			call(stack, PA);
 			i--;
