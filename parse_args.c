@@ -110,4 +110,3 @@ t_array			*parse_args(int count, char const **args)
 	ft_free2d((void **)splited_args);
 	return (checkdup(arr));
 }
-
