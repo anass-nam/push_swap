@@ -104,6 +104,8 @@ t_array			*parse_args(int count, char const **args)
 	splited_args = ft_split(joined_args, ' ');
 	if (splited_args == NULL)
 		return (free(joined_args), NULL);
+	if (*splited_args == NULL)
+		return (free(joined_args), free(splited_args), NULL);
 	arr = parse_int_array(splited_args);
 	ft_free2d((void **)splited_args);
 	return (checkdup(arr));
