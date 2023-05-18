@@ -15,27 +15,21 @@ static void	init_stack(t_ps *stack, t_array	*arr)
 	}
 }
 
-static t_byte issorted(t_array *arr)
+static t_byte issorted(int *items, int size)
 {
 	int	i;
 
 	i = 0;
-	while (++i < arr->size)
-		if (arr->items[i - 1] < arr->items[i])
+	while (++i < size)
+		if (items[i - 1] < items[i])
 			return (0);
 	return (1);
-}
-
-static int	check_prev(int *tail, int *arr, int pos, int arr_size)
-{
-	
 }
 
 static void	sort_stack(t_ps *stack, t_byte *moves)
 {
 	int	i;
 	int	*tails;
-	int	pos;
 
 
 	if (moves == NULL)
@@ -47,19 +41,20 @@ static void	sort_stack(t_ps *stack, t_byte *moves)
 	tails = (int *)malloc((stack->b->top + 1) * sizeof(int));
 	while (++i <= stack->b->top)
 	{
-		pos = get_pos2(stack->a->items, -1, stack->a->top, stack->b->items[i]);
-		tails[i] = check_prev(tails, stack->a->items, pos, stack->b->top + 1);
-		ft_putnbr_fd(stack->b->items[i], STDOUT_FILENO);
-		ft_putstr_fd(" -> ", STDOUT_FILENO);
-		ft_putnbr_fd(tails[i], STDOUT_FILENO);
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		tails[i] = stack->a->items[get_pos2(stack->a->items, -1, stack->a->top, stack->b->items[i])];
+		// ft_putnbr_fd(stack->b->items[i], STDOUT_FILENO);
+		// ft_putstr_fd(" -> ", STDOUT_FILENO);
+		// ft_putnbr_fd(tails[i], STDOUT_FILENO);
+		// ft_putchar_fd('\n', STDOUT_FILENO);
 	}
 	i--;
-	while (stack->b->top > -1)
+	while (stack->b->top != -1 || issorted(stack->a->items, stack->a->top + 1))
 	{
 		if (stack->a->items[0] == tails[i] && i > -1)
 		{
 			call(stack, PA);
+			if (stack->a->items[stack->a->top] > stack->a->items[stack->a->top - 1])
+				call(stack, SA);
 			i--;
 		}
 		else
@@ -77,30 +72,30 @@ static void	free_mem(t_ps *stack, t_array *arr, t_array *lis)
 	free(lis);
 }
 
-static void print_stack(t_ps *stack)
-{
-	int i;
+// static void print_stack(t_ps *stack)
+// {
+// 	int i;
 
-	i = 0;
-	ft_putstr_fd("A >",STDOUT_FILENO);
-	while (i <= stack->a->top)
-	{
-		ft_putchar_fd(' ', STDOUT_FILENO);
-		ft_putnbr_fd(stack->a->items[i], STDOUT_FILENO);
-		i++;
-	}
-	ft_putchar_fd('\n', STDOUT_FILENO);
-	i = 0;
-	ft_putstr_fd("B >",STDOUT_FILENO);
-	while (i <= stack->b->top)
-	{
-		ft_putchar_fd(' ', STDOUT_FILENO);
-		ft_putnbr_fd(stack->b->items[i], STDOUT_FILENO);
-		i++;
-	}
-	ft_putchar_fd('\n', STDOUT_FILENO);
+// 	i = 0;
+// 	ft_putstr_fd("A >",STDOUT_FILENO);
+// 	while (i <= stack->a->top)
+// 	{
+// 		ft_putchar_fd(' ', STDOUT_FILENO);
+// 		ft_putnbr_fd(stack->a->items[i], STDOUT_FILENO);
+// 		i++;
+// 	}
+// 	ft_putchar_fd('\n', STDOUT_FILENO);
+// 	i = 0;
+// 	ft_putstr_fd("B >",STDOUT_FILENO);
+// 	while (i <= stack->b->top)
+// 	{
+// 		ft_putchar_fd(' ', STDOUT_FILENO);
+// 		ft_putnbr_fd(stack->b->items[i], STDOUT_FILENO);
+// 		i++;
+// 	}
+// 	ft_putchar_fd('\n', STDOUT_FILENO);
 
-}
+// }
 
 int main(int ac, char const **av)
 {
@@ -115,15 +110,15 @@ int main(int ac, char const **av)
 	arr = parse_args(ac - 1, av + 1);
 	if (arr == NULL)
 		return (ft_putendl_fd(ERR, STDOUT_FILENO), 1);
-	else if (issorted(arr))
+	else if (issorted(arr->items, arr->size))
 		return (free(arr->items), free(arr), 0);
 	stack.a = &a;
 	stack.b = &b;
 	init_stack(&stack, arr);
-	print_stack(&stack);
+	// print_stack(&stack);
 	lis = get_lis(arr);
 	sort_stack(&stack, calc_first_mvs(arr, lis));
-	print_stack(&stack);
+	// print_stack(&stack);
 	free_mem(&stack, arr, lis);
 	return 0;
 }
