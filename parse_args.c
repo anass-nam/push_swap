@@ -78,7 +78,7 @@ static t_array	*checkdup(t_array *arr)
 	int	j;
 
 	i = 0;
-	while (i < arr->size)
+	while (arr && i < arr->size)
 	{
 		j = i + 1;
 		while (j < arr->size)

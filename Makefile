@@ -2,7 +2,7 @@ NAME=push_swap
 HEADER=$(NAME:=.h)
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
-FLAGS=-g -Wall -Wextra -Werror
+FLAGS=-g
 
 all: $(NAME)
 

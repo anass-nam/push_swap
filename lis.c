@@ -72,7 +72,7 @@ static void		construct_lis(t_lis *lis, int *arr, int len)
 	}
 }
 
-static t_array	*finalize_lis(t_lis *lis)
+static t_array	*finalize_lis(t_lis *lis, int r)
 {
 	t_array	*lis_indices;
 	int		i;
@@ -89,7 +89,7 @@ static t_array	*finalize_lis(t_lis *lis)
 	lis_indices->size = lis->len;
 	while (i < lis->len)
 	{
-		lis_indices->items[i] = j;
+		lis_indices->items[(i + r) % lis->len] = j;
 		j = lis->prev[j];
 		i++;
 	}
@@ -114,7 +114,7 @@ t_array *get_lis(t_array *arr)
 	while (++i < arr->size)
 		if (lis[i]->len > lis[b_lis]->len)
 			b_lis = i;
-	valid_lis = finalize_lis(lis[b_lis]);
+	valid_lis = finalize_lis(lis[b_lis], b_lis);
 	free_lis(lis, arr->size);
 	return (valid_lis);
 }

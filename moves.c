@@ -43,7 +43,7 @@ static void swap(t_stack *stack)
 	}
 }
 
-static void	print_move(t_byte move)
+void	print_move(t_byte move)
 {
 	if (move == SS)
 		ft_putendl_fd("ss", STDOUT_FILENO);

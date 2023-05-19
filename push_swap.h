@@ -3,6 +3,7 @@
 
 
 # include "libft.h"
+# include <stdio.h>
 
 # define ERR "Erorr"
 # define SA 0x1		// swap top tow elements on stack A
@@ -44,13 +45,10 @@ typedef struct s_lis
 
 
 typedef unsigned char t_byte;
-
+void	print_move(t_byte move);
 t_array	*parse_args(int count, char const **args);
 void	call(t_ps *stack, t_byte move);
 t_array	*get_lis(t_array *arr);
-t_byte	*calculate(t_array *arr, t_array *lis);
 int		get_pos(int a[], int t[], int l, int r, int v);
-t_byte	*calc_first_mvs(t_array *arr, t_array *lis);
-int		get_pos2(int a[], int l, int r, int v);
-
+t_byte	*calc_mvs(t_array *arr, t_array *lis);
 #endif
