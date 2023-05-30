@@ -34,14 +34,15 @@ typedef struct s_ps
 {
 	t_stack	*a;
 	t_stack	*b;
+	t_array	*lis;
 }	t_ps;
 
-// typedef struct s_lis
-// {
-// 	int	*tail;
-// 	int	*prev;
-// 	int	len;
-// }	t_lis;
+typedef struct s_lis
+{
+	int	*tail;
+	int	*prev;
+	int	len;
+}	t_lis;
 
 typedef unsigned char t_byte;
 

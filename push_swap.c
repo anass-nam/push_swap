@@ -11,25 +11,23 @@ static t_byte issorted(int *items, int size)
 	return (1);
 }
 
-void	sort(t_ps *stack)
+void	check_dup(t_stack *stack, t_array *lis)
 {
+	int	*stack_arr;
+	int	index;
+	int	dup;
 	int	i;
-	int	x;
-	int	y;
-	int	z;
 
-	i = stack->a->size;
-	while (i--)
+	stack_arr = (int *)malloc((stack->size + 1) * sizeof(int));
+	index = stack->size;
+	dup = -1;
+	while (stack)
 	{
-		call(stack, PB);
-		x = *(int *)stack->b->items->content;
-		y = *(int *)stack->b->items->next->content;
-		z = *(int *)ft_lstlast(stack->b->items)->content;
-		if (stack->b->size > 1)
-		{
-			
-		}
-	}		
+		stack = stack->items->next;
+	}
+	
+
+
 }
 
 int main(int ac, char const **av)
@@ -37,6 +35,7 @@ int main(int ac, char const **av)
 	t_ps	stack;
 	t_stack	a;
 	t_stack	b;
+	t_array	lis;
 
 	a.items = parse_args(ac - 1, av + 1);
 	a.size = ft_lstsize(a.items);
@@ -44,7 +43,8 @@ int main(int ac, char const **av)
 	b.size = 0;
 	stack.a = &a;
 	stack.b = &b;
-	sort(&stack);
+	stack.lis = &lis;
+	check_dup(stack.a, stack.lis);
 	
 	return 0;
 }
