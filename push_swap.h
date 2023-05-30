@@ -26,8 +26,8 @@ typedef struct	s_array
 
 typedef struct s_stack
 {
-	int	*items;
-	int	top;
+	t_list	*items;
+	int		size;
 }	t_stack;
 
 typedef struct s_ps
@@ -36,19 +36,16 @@ typedef struct s_ps
 	t_stack	*b;
 }	t_ps;
 
-typedef struct s_lis
-{
-	int	*tail;
-	int	*prev;
-	int	len;
-}	t_lis;
-
+// typedef struct s_lis
+// {
+// 	int	*tail;
+// 	int	*prev;
+// 	int	len;
+// }	t_lis;
 
 typedef unsigned char t_byte;
+
 void	print_move(t_byte move);
-t_array	*parse_args(int count, char const **args);
+t_list	*parse_args(int count, char const **args);
 void	call(t_ps *stack, t_byte move);
-t_array	*get_lis(t_array *arr);
-int		get_pos(int a[], int t[], int l, int r, int v);
-t_byte	*calc_mvs(t_array *arr, t_array *lis);
 #endif

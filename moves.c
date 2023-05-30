@@ -2,44 +2,51 @@
 
 static void	push(t_stack *from, t_stack *to)
 {
-	if (from->top > -1)
-		to->items[++to->top] = from->items[from->top--];
+	t_list	*top;
+
+	if (from->size > 0)
+	{
+		top = from->items;
+		from->items = from->items->next;
+		from->size--;
+		top->next = NULL;
+		ft_lstadd_back(&to, top);
+		to->size++;
+	}
 }
 
 static void	rotate(t_stack *stack, t_byte d)
 {
-	int	i;
-	int	tmp;
+	t_list	*top;
 
-	if (stack->top > 0)
+	if (stack->size > 1)
 	{
-		i = -1;
 		if (d == 1)
 		{
-			tmp = stack->items[stack->top];
-			while (++i < stack->top)
-				stack->items[stack->top - i] = stack->items[stack->top - i - 1];
-			stack->items[0] = tmp;
+			top = stack->items;
+			stack->items = stack->items->next;
+			top->next = NULL;
+			ft_lstadd_back(&stack->items, top);
 		}
 		else
 		{
-			tmp = stack->items[0];
-			while (++i < stack->top)
-				stack->items[i] = stack->items[i + 1];
-			stack->items[i] = tmp;
+			top = ft_lstlast(stack->items);
+			ft_lstadd_front(&stack->items, top);
+			top = ft_lstlast(stack->items);
+			top->next = NULL;
 		}
 	}
 }
 
 static void swap(t_stack *stack)
 {
-	int top = stack->top;
+	t_list	*new_top;
 
-	if (top > 0)
+	if (stack->size > 1)
 	{
-		stack->items[top] = stack->items[top] ^ stack->items[top - 1];
-		stack->items[top - 1] = stack->items[top] ^ stack->items[top - 1];
-		stack->items[top] = stack->items[top] ^ stack->items[top - 1];
+		new_top = stack->items->next;
+		stack->items->next = new_top->next;
+		ft_lstadd_front(&stack->items, new_top);
 	}
 }
 

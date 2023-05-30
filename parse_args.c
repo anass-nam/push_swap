@@ -1,112 +1,90 @@
 #include "push_swap.h"
 
-static int	isvalid_arg(char const *arg)
+static int	*parse_int(char	*item)
 {
-	int	i;
+	int		*parsed;
+	int		curent;
+	int		iszero;
 
-	i = 0;
-	while (*arg != '\0')
-	{
-		while (ft_isspace(*arg))
-			arg++;
-		if ((*arg == '-' || *arg == '+') && ft_isdigit(*(arg + 1)))
-			arg++;
-		while (ft_isdigit(*arg))
-			arg++;
-		if (!ft_isdigit(*arg) && !ft_isspace(*arg) && *arg != '\0')
-			return (0);
-		i++;
-	}
-	return (i);
+	curent = ft_atoi(item);
+	if ((*item == '-' || *item == '+') && ft_isdigit(*(item + 1)))
+		item++;
+	iszero = 0;
+	while (ft_isdigit(*item))
+		iszero += *(item++) - '0';
+	if (*item != '\0' || ((curent == 0 || curent == -1) && iszero != 0))
+		return (NULL);
+	parsed = (int *)malloc(sizeof(int));
+	if (parsed == NULL)
+		return (NULL);
+	*parsed = curent;
+	return (parsed);
 }
 
-static char	*join_args(int count, char const **args)
+static void	add_to_list(t_list **item, char **args)
 {
-	char	*joined_args;
-	char	*tmp;
+	t_list	*new;
 
-	joined_args = ft_strdup("");
-	while (count--)
+	while (*args)
 	{
-		if (isvalid_arg(*args))
+		new = ft_lstnew(parse_int(*args));
+		if (new == NULL || new->content == NULL)
 		{
-			tmp = joined_args;
-			joined_args = ft_strjoin(joined_args, " ");
-			free(tmp);
-			tmp = joined_args;
-			joined_args = ft_strjoin(joined_args, *args);
-			free(tmp);
-			if (joined_args == NULL)
-				return (NULL);
+			ft_lstdelone(new, free);
+			ft_lstclear(item, free);
+			break ;
 		}
-		else
-			return (free(joined_args), NULL);
+		ft_lstadd_back(item, new);
 		args++;
 	}
-	return (joined_args);
 }
 
-static t_array	*parse_int_array(char **items)
+t_list		*parse_args(int count, char const **args)
 {
-	t_array	*arr;
-	int		i;
+	t_list	*item;
+	char	**tmp;
 
-	arr = (t_array *)malloc(sizeof(t_array));
-	if (arr == NULL)
-		return (NULL);
-	i = 0;
-	while (*(items + i))
-		i++;
-	arr->items = (int *)malloc(i * sizeof(int));
-	if (arr->items == NULL)
-		return (free(arr), NULL);
-	arr->size = i;
-	while (i--)
+	item = NULL;
+	while (count--)
 	{
-		arr->items[i] = ft_atoi(*items);
-		if ((**items == '-' && arr->items[i] == 0)
-			|| (**items != '-' && arr->items[i] == -1))
-			return (free(arr), free(arr->items), NULL);
-		items++;
+		tmp = ft_split(*args, ' ');
+		if (tmp == NULL)
+			return (ft_lstclear(&item, free), NULL);
+		else if (*tmp == NULL)
+			return (ft_lstclear(&item, free), free(tmp), NULL);
+		add_to_list(&item, tmp);
+		ft_free2d((void *)tmp);
+		if (item == NULL)
+			return (NULL);
+		args++;
 	}
-	return (arr);
+	return (item);
 }
 
-static t_array	*checkdup(t_array *arr)
-{
-	int	i;
-	int	j;
 
-	i = 0;
-	while (arr && i < arr->size)
-	{
-		j = i + 1;
-		while (j < arr->size)
-		{
-			if (arr->items[i] == arr->items[j])
-				return (free(arr->items), free(arr), NULL);
-			j++;
-		}
-		i++;
-	}
-	return (arr);
-}
 
-t_array			*parse_args(int count, char const **args)
-{
-	char	*joined_args;
-	char	**splited_args;
-	t_array	*arr;
+/*
+	
 
-	joined_args = join_args(count, args);
-	if (joined_args == NULL)
-		return (NULL);
-	splited_args = ft_split(joined_args, ' ');
-	if (splited_args == NULL)
-		return (free(joined_args), NULL);
-	if (*splited_args == NULL)
-		return (free(joined_args), free(splited_args), NULL);
-	arr = parse_int_array(splited_args);
-	ft_free2d((void **)splited_args);
-	return (checkdup(arr));
-}
+
+
+
+
+
+	
+
+
+*/
+
+
+
+
+
+
+
+
+
+
+
+
+
