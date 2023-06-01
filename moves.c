@@ -10,7 +10,7 @@ static void	push(t_stack *from, t_stack *to)
 		from->items = from->items->next;
 		from->size--;
 		top->next = NULL;
-		ft_lstadd_back(&to, top);
+		ft_lstadd_back(&(to->items), top);
 		to->size++;
 	}
 }

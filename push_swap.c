@@ -11,23 +11,15 @@ static t_byte issorted(int *items, int size)
 	return (1);
 }
 
-void	check_dup(t_stack *stack, t_array *lis)
+static void	pll(t_list *list)
 {
-	int	*stack_arr;
-	int	index;
-	int	dup;
-	int	i;
-
-	stack_arr = (int *)malloc((stack->size + 1) * sizeof(int));
-	index = stack->size;
-	dup = -1;
-	while (stack)
+	while (list)
 	{
-		stack = stack->items->next;
+		ft_putnbr_fd(*(int *)(list->content), STDOUT_FILENO);
+		ft_putchar_fd(' ', STDOUT_FILENO);
+		list = list->next;
 	}
-	
-
-
+	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
 int main(int ac, char const **av)
@@ -35,23 +27,25 @@ int main(int ac, char const **av)
 	t_ps	stack;
 	t_stack	a;
 	t_stack	b;
-	t_array	lis;
 
 	a.items = parse_args(ac - 1, av + 1);
+	if (a.items == NULL)
+		ft_putendl_fd("Error", STDERR_FILENO);
+	pll(a.items);
+	stack.sorted = merge_sort(a.items);
+	pll(stack.sorted);
+	if (stack.sorted == NULL)
+		ft_putendl_fd("Error", STDERR_FILENO);
 	a.size = ft_lstsize(a.items);
 	b.items = NULL;
 	b.size = 0;
 	stack.a = &a;
 	stack.b = &b;
-	stack.lis = &lis;
-	check_dup(stack.a, stack.lis);
+	sort(&stack);
+	ft_lstclear(&(a.items), free);
+	ft_lstclear(&(stack.sorted), free);
+
 	
 	return 0;
 }
 
-
-
-// i should have 2 arrays one for the lis, second for elements pushed to B
-
-
-// 

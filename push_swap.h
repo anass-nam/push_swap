@@ -18,12 +18,6 @@
 # define PA 0x40	// push top element of stack B onto stack A
 # define PB 0x80	// push top element of stack A onto stack B
 
-typedef struct	s_array
-{
-	int	*items;
-	int	size;
-}	t_array;
-
 typedef struct s_stack
 {
 	t_list	*items;
@@ -34,19 +28,13 @@ typedef struct s_ps
 {
 	t_stack	*a;
 	t_stack	*b;
-	t_array	*lis;
+	t_list	*sorted;
 }	t_ps;
-
-typedef struct s_lis
-{
-	int	*tail;
-	int	*prev;
-	int	len;
-}	t_lis;
 
 typedef unsigned char t_byte;
 
 void	print_move(t_byte move);
 t_list	*parse_args(int count, char const **args);
+t_list	*merge_sort(t_list *list);
 void	call(t_ps *stack, t_byte move);
 #endif
