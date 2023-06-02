@@ -2,36 +2,38 @@
 
 t_list	*get_mid(t_list *list)
 {
-	int	mid;
+	t_list	*slow;
+	t_list	*fast;
 
-	mid = ft_lstsize(list) / 2;
-	while (--mid)
-		list = list->next;
+	slow = list;
+	fast = list;
+	while (fast && fast->next)
+	{
+		slow = slow->next;
+		fast = fast->next->next;
+	}
 	return (list);
 }
 
 t_list	*merge_sorted_list(t_list *a, t_list *b)
 {
 	t_list	*merged;
-	t_list	*tmp;
+	void	*tmp;
 
 	merged = NULL;
 	while (a || b)
 	{
 		if (!b || (a && *(int *)(a->content) < *(int *)(b->content)))
 		{
-			tmp = a;
+			tmp = a->content;
 			a = a->next;
-			tmp->next = NULL;
-			ft_lstadd_back(&merged, tmp);
 		}
 		else
 		{
-			tmp = b;
+			tmp = b->content;
 			b = b->next;
-			tmp->next = NULL;
-			ft_lstadd_back(&merged, tmp);
 		}
+		ft_lstadd_back(&merged, ft_lstnew(tmp));
 	}
 	return (merged);
 }
