@@ -28,12 +28,18 @@ static t_byte	rightmove(int item, int bit)
 		return (RA);
 	return (PB);
 }
+static t_byte	rightmove2(int item, int bit)
+{
+	if (item >> bit & 1)
+		return (RB);
+	return (PA);
+}
 
 static void	ps_sort(t_ps *stack, int bit)
 {
 	int	i;
 
-	if (!issorted(stack->a->items) && bit < (int)sizeof(int) - 1)
+	if (!issorted(stack->a->items) && bit < ((int)sizeof(int) * 8) - 1)
 	{
 		i = stack->a->size;
 		while (i--)
@@ -43,10 +49,10 @@ static void	ps_sort(t_ps *stack, int bit)
 			// pll(stack->b->items);
 			// if (stack->b->size > 1)
 			// {
-			// 	if (*(int *)(stack->a->items->content) > *(int *)(stack->a->items->next->content)
+			// 	if (stack->a->size > 1 && *(int *)(stack->a->items->content) > *(int *)(stack->a->items->next->content)
 			// 		&& *(int *)(stack->b->items->content) < *(int *)(stack->b->items->next->content))
 			// 		call(stack, SS);
-			// 	if (*(int *)(stack->b->items->content) < *(int *)(stack->b->items->next->content))
+			// 	else if (*(int *)(stack->b->items->content) < *(int *)(stack->b->items->next->content))
 			// 		call(stack, SB);
 			// 	// pll(stack->a->items);
 			// 	// pll(stack->b->items);
@@ -55,9 +61,19 @@ static void	ps_sort(t_ps *stack, int bit)
 		i = stack->b->size;
 		while (i--)
 		{
-			call(stack, PA);
 			// pll(stack->a->items);
 			// pll(stack->b->items);
+			// if (stack->a->size > 1)
+			// {
+			// 	if (stack->b->size > 1 && *(int *)(stack->a->items->content) > *(int *)(stack->a->items->next->content)
+			// 		&& *(int *)(stack->b->items->content) < *(int *)(stack->b->items->next->content))
+			// 		call(stack, SS);
+			// 	else if (*(int *)(stack->a->items->content) < *(int *)(stack->a->items->next->content))
+			// 		call(stack, SA);
+			// // 	pll(stack->a->items);
+			// // 	pll(stack->b->items);
+			// }
+			call(stack, PA);
 		}
 		ps_sort(stack, bit + 1);
 	}
