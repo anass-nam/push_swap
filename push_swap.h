@@ -46,7 +46,6 @@ typedef struct s_stack
 	int		max;
 	t_array	*a;
 	t_array	*b;
-	t_array	*lis;
 }	t_stack;
 
 typedef unsigned char	t_byte;

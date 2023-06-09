@@ -2,17 +2,17 @@ NAME=push_swap
 HEADER=$(NAME:=.h)
 SRC=$(wildcard *.c)
 OBJ=$(SRC:.c=.o)
-FLAGS=-Werror -Wall -Wextra
+CFLAGS=-Werror -Wall -Wextra
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
 	@echo "Compiling..."
-	@cc $(FLAGS) $(OBJ) -lft -o $(NAME)
+	@cc $(CFLAGS) $^ -lft -o $@
 	@echo "Done!"
 
 %.o: %.c $(HEADER)
-	@cc $(FLAGS) -c $< -o $@
+	@cc $(CFLAGS) -c $< -o $@
 
 clean:
 	@echo "Cleaning..."
