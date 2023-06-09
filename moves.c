@@ -2,8 +2,6 @@
 
 static void	push(t_array *from, t_array *to)
 {
-	t_list	*top;
-
 	if (from->size > 0)
 	{
 		ft_memmove(to->items + 1, to->items, sizeof(int) * to->size);
@@ -14,34 +12,34 @@ static void	push(t_array *from, t_array *to)
 	}
 }
 
-static void	rotate(t_array *stack, t_byte d)
+static void	rotate(t_array *s, t_byte d)
 {
 	int	top;
 
-	if (stack->size > 1)
+	if (s->size > 1)
 	{
 		if (d == 1)
 		{
-			top = stack->items[0];
-			ft_memmove(stack->items, stack->items + 1, sizeof(int) * (stack->size - 1));
-			stack->items[stack->size - 1] = top;
+			top = s->items[0];
+			ft_memmove(s->items, s->items + 1, sizeof(int) * (s->size - 1));
+			s->items[s->size - 1] = top;
 		}
 		else
 		{
-			top = stack->items[stack->size - 1];
-			ft_memmove(stack->items + 1, stack->items, sizeof(int) * (stack->size - 1));
-			stack->items[0] = top;
+			top = s->items[s->size - 1];
+			ft_memmove(s->items + 1, s->items, sizeof(int) * (s->size - 1));
+			s->items[0] = top;
 		}
 	}
 }
 
-static void swap(t_array *stack)
+static void	swap(t_array *s)
 {
-	if (stack->size > 1)
+	if (s->size > 1)
 	{
-		stack->items[0] ^= stack->items[1];		
-		stack->items[1] ^= stack->items[0];		
-		stack->items[0] ^= stack->items[1];		
+		s->items[0] ^= s->items[1];
+		s->items[1] ^= s->items[0];
+		s->items[0] ^= s->items[1];
 	}
 }
 
@@ -71,23 +69,23 @@ void	print_move(t_byte move)
 		ft_putendl_fd("pb", STDOUT_FILENO);
 }
 
-void	call(t_stack *stack, t_byte move)
+void	call(t_stack *s, t_byte move)
 {
 	if (move & SA)
-		swap(stack->a);
+		swap(s->a);
 	if (move & SB)
-		swap(stack->b);
+		swap(s->b);
 	if (move & RA)
-		rotate(stack->a, 1);
+		rotate(s->a, 1);
 	if (move & RB)
-		rotate(stack->b, 1);
+		rotate(s->b, 1);
 	if (move & RRA)
-		rotate(stack->a, 0);
+		rotate(s->a, 0);
 	if (move & RRB)
-		rotate(stack->b, 0);
+		rotate(s->b, 0);
 	if (move & PA)
-		push(stack->b, stack->a);
+		push(s->b, s->a);
 	if (move & PB)
-		push(stack->a, stack->b);
+		push(s->a, s->b);
 	print_move(move);
 }

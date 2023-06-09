@@ -1,7 +1,6 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 
-
 # include "libft.h"
 # include <stdio.h>
 
@@ -25,7 +24,7 @@
 # define PA 0x40	// push top element of stack B onto stack A
 # define PB 0x80	// push top element of stack A onto stack B
 
-typedef struct	s_array
+typedef struct s_array
 {
 	int	*items;
 	int	size;
@@ -39,13 +38,11 @@ typedef struct s_stack
 	t_array	*lis;
 }	t_stack;
 
-typedef unsigned char t_byte;
+typedef unsigned char	t_byte;
 
-// void	print_move(t_byte move);
+void	push_swap(t_stack *s);
+void	call(t_stack *stack, t_byte move);
 t_array	*parse_args(int count, char const **args);
 t_array	*minimize_range(t_array *arr);
-void	call(t_stack *stack, t_byte move);
-t_array *get_lis(t_array *arr);
-void	push_swap(t_stack *s);
-void	exit_ps(t_stack *s, t_byte o);
+
 #endif

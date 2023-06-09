@@ -1,42 +1,53 @@
 #include "push_swap.h"
 
-static void	merge(int *arr, int llen, int rlen)
+static int	allocate_temp(int *tmp[2], int ll, int rl)
 {
-	int	left[llen];
-	int	right[rlen];
-	int	i;
-	int	j;
-	int	k;
-
-	i = -1;
-	while (++i < llen)
-		left[i] = arr[i];
-	i = -1;
-	while (++i < rlen)
-		right[i] = arr[i + llen];
-	i = 0;
-	j = 0;
-	k = 0;
-	while (k < llen + rlen)
-	{
-		if (i < llen && (j >= rlen || left[i] < right[j]))
-			arr[k] = left[i++];
-		else
-			arr[k] = right[j++];
-		k++;
-	}
+	tmp[0] = (int *)malloc(ll * sizeof(int));
+	if (tmp[0] == NULL)
+		return (0);
+	tmp[1] = (int *)malloc(rl * sizeof(int));
+	if (tmp[1] == NULL)
+		return (free(tmp[0]), 0);
+	return (1);
 }
 
-static void	merge_sort(int *arr, int l, int r)
+static void	merge(int *arr, int llen, int rlen, int *status)
+{
+	int	*tmp[2];
+	int	i[3];
+
+	*status = allocate_temp(tmp, llen, rlen);
+	if (*status == 0)
+		return ;
+	i[0] = -1;
+	while (++i[0] < llen)
+		tmp[0][i[0]] = arr[i[0]];
+	i[0] = -1;
+	while (++i[0] < rlen)
+		tmp[1][i[0]] = arr[i[0] + llen];
+	ft_bzero(i, 3 * sizeof(int));
+	while (i[2] < llen + rlen)
+	{
+		if (i[0] < llen && (i[1] >= rlen || tmp[0][i[0]] < tmp[1][i[1]]))
+			arr[i[2]] = tmp[0][i[0]++];
+		else
+			arr[i[2]] = tmp[1][i[1]++];
+		i[2]++;
+	}
+	free(tmp[0]);
+	free(tmp[1]);
+}
+
+static void	merge_sort(int *arr, int l, int r, int *status)
 {
 	int	m;
 
-	if (l < r)
+	if (*status == 1 && l < r)
 	{
 		m = l + (r - l) / 2;
-		merge_sort(arr, l, m);
-		merge_sort(arr, m + 1, r);
-		merge(arr + l, m - l + 1, r - m);
+		merge_sort(arr, l, m, status);
+		merge_sort(arr, m + 1, r, status);
+		merge(arr + l, m - l + 1, r - m, status);
 	}
 }
 
@@ -59,6 +70,7 @@ static int	get_pos(int *arr, int l, int r, int val)
 t_array	*minimize_range(t_array *arr)
 {
 	int	*arrcpy;
+	int	status;
 	int	i;
 
 	if (arr == NULL)
@@ -67,7 +79,8 @@ t_array	*minimize_range(t_array *arr)
 	if (arrcpy == NULL)
 		return (free(arr->items), free(arr), NULL);
 	ft_memcpy(arrcpy, arr->items, arr->size * sizeof(int));
-	merge_sort(arrcpy, 0, arr->size - 1);
+	status = 1;
+	merge_sort(arrcpy, 0, arr->size - 1, &status);
 	i = -1;
 	while (++i < arr->size)
 	{

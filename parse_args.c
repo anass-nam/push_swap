@@ -1,6 +1,6 @@
 #include "push_swap.h"
 
-static int		parse_int(char	*item, int *status)
+static int	parse_int(char	*item, int *status)
 {
 	int		parsed;
 	int		iszero;
@@ -11,7 +11,9 @@ static int		parse_int(char	*item, int *status)
 	iszero = 0;
 	while (ft_isdigit(*item))
 		iszero += *(item++) - '0';
-	if (*item != '\0' || ((parsed == 0 || (parsed == -1 && iszero != 1)) && iszero != 0))
+	if (*item != '\0'
+		|| (parsed == 0 && iszero != 0)
+		|| (parsed == -1 && iszero != 1))
 		*status = 0;
 	return (parsed);
 }
@@ -43,7 +45,7 @@ static t_array	*export_args(t_list **list)
 	return (ft_lstclear(list, free), arr);
 }
 
-static void		add_to_list(t_list **item, char **args)
+static void	add_to_list(t_list **item, char **args)
 {
 	t_list	*new;
 
@@ -62,7 +64,7 @@ static void		add_to_list(t_list **item, char **args)
 	}
 }
 
-t_array			*parse_args(int count, char const **args)
+t_array	*parse_args(int count, char const **args)
 {
 	t_list	*item;
 	char	**tmp;

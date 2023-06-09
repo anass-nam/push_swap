@@ -4,22 +4,11 @@
 
 #define MAX 1000
 
-int	main(int ac, char const **av)
+static void	print_generated(int *arr, int count)
 {
-	int	*arr;
-	int	count;
-	int	random;
 	int	i;
+	int	random;
 
-	if (ac != 2)
-		return (1);
-	count = atoi(av[1]);
-	arr = (int *)malloc(MAX * sizeof(int));
-	if (arr == NULL)
-		return (1);
-	i = -1;
-	while (++i < MAX)
-		arr[i] = i - (MAX / 2);
 	srand(time(NULL));
 	i = 0;
 	while (i < count)
@@ -31,6 +20,23 @@ int	main(int ac, char const **av)
 		arr[random] = arr[MAX - i];
 	}
 	printf("\n");
-	free(arr);
-    return 0;
+}
+
+int	main(int ac, char const **av)
+{
+	int	*arr;
+	int	count;
+	int	i;
+
+	if (ac != 2)
+		return (1);
+	count = atoi(av[1]);
+	arr = (int *)malloc(MAX * sizeof(int));
+	if (arr == NULL)
+		return (1);
+	i = -1;
+	while (++i < MAX)
+		arr[i] = i - (MAX / 2);
+	print_generated(arr, count);
+	return (free(arr), 0);
 }

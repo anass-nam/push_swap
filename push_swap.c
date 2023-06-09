@@ -1,10 +1,8 @@
 #include "push_swap.h"
 
-#define TOP 0
-
 static t_byte	locate(int *arr, int target)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < target / 2 && arr[i] != target)
@@ -60,20 +58,23 @@ static void	merge_items(t_stack *s)
 
 void	push_swap(t_stack *s)
 {
+	int	*top;
+
+	top = s->a->items;
 	if (s->a->size == 1)
 		return ;
 	else if (s->a->size == 2)
 	{
-		if (s->a->items[0] > s->a->items[1])
+		if (top[0] > top[1])
 			call(s, SA);
 		return ;
 	}
 	divide_items(s);
-	while (!(s->a->items[0] < s->a->items[1] && s->a->items[1] < s->a->items[2]))
+	while (!(top[0] < top[1] && top[1] < top[2]))
 	{
-		if (s->a->items[0] < s->a->items[1] && s->a->items[0] > s->a->items[2])
+		if (top[0] < top[1] && top[0] > top[2])
 			call(s, RRA);
-		else if (s->a->items[0] > s->a->items[1] && s->a->items[0] > s->a->items[2])
+		else if (top[0] > top[1] && top[0] > top[2])
 			call(s, RA);
 		else
 			call(s, SA);
