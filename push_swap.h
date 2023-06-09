@@ -6,6 +6,13 @@
 # include <stdio.h>
 
 # define ERR "Erorr"
+
+# define FREE_SA 0x1	// free stack A
+# define FREE_SB 0x2	// free stack B
+# define PERR 0x4		// print error
+# define EERR 0x8		// exit failure
+# define PSFAIL 0xF		// all
+
 # define SA 0x1		// swap top tow elements on stack A
 # define SB 0x2		// swap top tow elements on stack B
 # define SS 0x3		// SA and SB in same time
@@ -18,23 +25,27 @@
 # define PA 0x40	// push top element of stack B onto stack A
 # define PB 0x80	// push top element of stack A onto stack B
 
+typedef struct	s_array
+{
+	int	*items;
+	int	size;
+}	t_array;
+
 typedef struct s_stack
 {
-	t_list	*items;
-	int		size;
+	int		max;
+	t_array	*a;
+	t_array	*b;
+	t_array	*lis;
 }	t_stack;
-
-typedef struct s_ps
-{
-	t_stack	*a;
-	t_stack	*b;
-	t_list	*sorted;
-}	t_ps;
 
 typedef unsigned char t_byte;
 
-void	print_move(t_byte move);
-t_list	*parse_args(int count, char const **args);
-t_list	*merge_sort(t_list *list);
-void	call(t_ps *stack, t_byte move);
+// void	print_move(t_byte move);
+t_array	*parse_args(int count, char const **args);
+t_array	*minimize_range(t_array *arr);
+void	call(t_stack *stack, t_byte move);
+t_array *get_lis(t_array *arr);
+void	push_swap(t_stack *s);
+void	exit_ps(t_stack *s, t_byte o);
 #endif

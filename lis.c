@@ -7,12 +7,6 @@ typedef struct s_lis
 	int	len;
 }	t_lis;
 
-typedef struct	s_array
-{
-	int	*items;
-	int	size;
-}	t_array;
-
 static int		get_pos(int a[], int i[], int l, int r, int v)
 {
 	int	m;
@@ -86,10 +80,10 @@ static void		construct_lis(t_lis *lis, int *arr, int len)
 	while (++i < len)
 	{
 		if (arr[(s + i) % len] < arr[lis->tail[0]])
-			lis->tail[0] = (s + i) % len; // update the smalesst
+			lis->tail[0] = (s + i) % len;
 		else if (arr[(s + i) % len] > arr[lis->tail[lis->len - 1]])
 		{
-			lis->prev[(s + i) % len] = lis->tail[lis->len - 1]; // 
+			lis->prev[(s + i) % len] = lis->tail[lis->len - 1];
 			lis->tail[lis->len++] = (s + i) % len;
 		}
 		else

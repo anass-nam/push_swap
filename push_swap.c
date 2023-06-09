@@ -1,109 +1,82 @@
 #include "push_swap.h"
 
-static t_byte issorted(t_list *items)
+#define TOP 0
+
+static t_byte	locate(int *arr, int target)
 {
-	while (items->next)
-	{
-		if (*(int *)items->content > *(int *)items->next->content)
-			return (0);
-		items = items->next;
-	}
-	return (1);
+	int i;
+
+	i = 0;
+	while (i < target / 2 && arr[i] != target)
+		i++;
+	return (arr[i] == target);
 }
 
-static void	pll(t_list *list)
+static void	divide_items(t_stack *s)
 {
-	while (list)
-	{
-		ft_putnbr_fd(*(int *)(list->content), STDOUT_FILENO);
-		ft_putchar_fd(' ', STDOUT_FILENO);
-		list = list->next;
-	}
-	ft_putchar_fd('\n', STDOUT_FILENO);
-}
-
-static t_byte	rightmove(int item, int bit)
-{
-	if (item >> bit & 1)
-		return (RA);
-	return (PB);
-}
-static t_byte	rightmove2(int item, int bit)
-{
-	if (item >> bit & 1)
-		return (RB);
-	return (PA);
-}
-
-static void	ps_sort(t_ps *stack, int bit)
-{
+	int	*top_a;
+	int	*top_b;
+	int	pivot;
 	int	i;
 
-	if (!issorted(stack->a->items) && bit < ((int)sizeof(int) * 8) - 1)
+	top_a = s->a->items;
+	top_b = s->b->items;
+	pivot = s->max / (13 - (s->max <= 100) * 8);
+	i = 1;
+	while (s->a->size > 3)
 	{
-		i = stack->a->size;
-		while (i--)
+		if (*top_a <= i + pivot && *top_a < s->max - 2)
 		{
-			call(stack, rightmove(*(int *)(stack->a->items->content), bit));
-			// pll(stack->a->items);
-			// pll(stack->b->items);
-			// if (stack->b->size > 1)
-			// {
-			// 	if (stack->a->size > 1 && *(int *)(stack->a->items->content) > *(int *)(stack->a->items->next->content)
-			// 		&& *(int *)(stack->b->items->content) < *(int *)(stack->b->items->next->content))
-			// 		call(stack, SS);
-			// 	else if (*(int *)(stack->b->items->content) < *(int *)(stack->b->items->next->content))
-			// 		call(stack, SB);
-			// 	// pll(stack->a->items);
-			// 	// pll(stack->b->items);
-			// }
+			call(s, PB);
+			if (*top_b > i)
+				call(s, RB);
+			i++;
 		}
-		i = stack->b->size;
-		while (i--)
-		{
-			// pll(stack->a->items);
-			// pll(stack->b->items);
-			// if (stack->a->size > 1)
-			// {
-			// 	if (stack->b->size > 1 && *(int *)(stack->a->items->content) > *(int *)(stack->a->items->next->content)
-			// 		&& *(int *)(stack->b->items->content) < *(int *)(stack->b->items->next->content))
-			// 		call(stack, SS);
-			// 	else if (*(int *)(stack->a->items->content) < *(int *)(stack->a->items->next->content))
-			// 		call(stack, SA);
-			// // 	pll(stack->a->items);
-			// // 	pll(stack->b->items);
-			// }
-			call(stack, PA);
-		}
-		ps_sort(stack, bit + 1);
+		else
+			call(s, RA);
 	}
 }
 
-int main(int ac, char const **av)
+static void	merge_items(t_stack *s)
 {
-	t_ps	stack;
-	t_stack	a;
-	t_stack	b;
+	int	*top;
+	int	max;
 
-	a.items = parse_args(ac - 1, av + 1);
-	if (a.items == NULL)
-		ft_putendl_fd("Error", STDERR_FILENO);
-	pll(a.items);
-	// stack.sorted = merge_sort(a.items);
-	// pll(stack.sorted);
-	// if (stack.sorted == NULL)
-	// 	ft_putendl_fd("Error", STDERR_FILENO);
-	a.size = ft_lstsize(a.items);
-	b.items = NULL;
-	b.size = 0;
-	stack.a = &a;
-	stack.b = &b;
-	ps_sort(&stack, 0);
-	pll(a.items);
-	ft_lstclear(&(a.items), free);
-	// ft_lstclear(&(stack.sorted), free);
-
-	
-	return 0;
+	top = s->b->items;
+	while (s->b->size)
+	{
+		max = s->b->size;
+		if (locate(s->b->items, max))
+		{
+			if (max == *top)
+				call(s, PA);
+			else
+				call(s, RB);
+		}
+		else
+			call(s, RRB);
+	}
 }
 
+void	push_swap(t_stack *s)
+{
+	if (s->a->size == 1)
+		return ;
+	else if (s->a->size == 2)
+	{
+		if (s->a->items[0] > s->a->items[1])
+			call(s, SA);
+		return ;
+	}
+	divide_items(s);
+	while (!(s->a->items[0] < s->a->items[1] && s->a->items[1] < s->a->items[2]))
+	{
+		if (s->a->items[0] < s->a->items[1] && s->a->items[0] > s->a->items[2])
+			call(s, RRA);
+		else if (s->a->items[0] > s->a->items[1] && s->a->items[0] > s->a->items[2])
+			call(s, RA);
+		else
+			call(s, SA);
+	}
+	merge_items(s);
+}

@@ -1,52 +1,47 @@
 #include "push_swap.h"
 
-static void	push(t_stack *from, t_stack *to)
+static void	push(t_array *from, t_array *to)
 {
 	t_list	*top;
 
 	if (from->size > 0)
 	{
-		top = from->items;
-		from->items = from->items->next;
-		from->size--;
-		top->next = NULL;
-		ft_lstadd_front(&(to->items), top);
+		ft_memmove(to->items + 1, to->items, sizeof(int) * to->size);
+		to->items[0] = from->items[0];
 		to->size++;
+		from->size--;
+		ft_memmove(from->items, from->items + 1, sizeof(int) * from->size);
 	}
 }
 
-static void	rotate(t_stack *stack, t_byte d)
+static void	rotate(t_array *stack, t_byte d)
 {
-	t_list	*top;
+	int	top;
 
 	if (stack->size > 1)
 	{
 		if (d == 1)
 		{
-			top = stack->items;
-			stack->items = stack->items->next;
-			top->next = NULL;
-			ft_lstadd_back(&stack->items, top);
+			top = stack->items[0];
+			ft_memmove(stack->items, stack->items + 1, sizeof(int) * (stack->size - 1));
+			stack->items[stack->size - 1] = top;
 		}
 		else
 		{
-			top = ft_lstlast(stack->items);
-			ft_lstadd_front(&stack->items, top);
-			top = ft_lstlast(stack->items);
-			top->next = NULL;
+			top = stack->items[stack->size - 1];
+			ft_memmove(stack->items + 1, stack->items, sizeof(int) * (stack->size - 1));
+			stack->items[0] = top;
 		}
 	}
 }
 
-static void swap(t_stack *stack)
+static void swap(t_array *stack)
 {
-	t_list	*new_top;
-
 	if (stack->size > 1)
 	{
-		new_top = stack->items->next;
-		stack->items->next = new_top->next;
-		ft_lstadd_front(&stack->items, new_top);
+		stack->items[0] ^= stack->items[1];		
+		stack->items[1] ^= stack->items[0];		
+		stack->items[0] ^= stack->items[1];		
 	}
 }
 
@@ -76,7 +71,7 @@ void	print_move(t_byte move)
 		ft_putendl_fd("pb", STDOUT_FILENO);
 }
 
-void	call(t_ps *stack, t_byte move)
+void	call(t_stack *stack, t_byte move)
 {
 	if (move & SA)
 		swap(stack->a);
