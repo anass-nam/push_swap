@@ -13,7 +13,6 @@
 # define PUSH_SWAP_H
 
 # include "libft.h"
-# include <stdio.h>
 
 # define ERR "Erorr"
 

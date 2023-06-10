@@ -1,0 +1,27 @@
+NAME=push_swap
+HEADER=$(NAME:=.h)
+SRC=$(wildcard *.c)
+OBJ=$(SRC:.c=.o)
+CFLAGS=-Werror -Wall -Wextra
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@echo "Compiling..."
+	@cc $(CFLAGS) $^ -lft -o $@
+	@echo "Done!"
+
+%.o: %.c $(HEADER)
+	@cc $(CFLAGS) -c $< -o $@
+
+clean:
+	@echo "Cleaning..."
+	@rm -f $(OBJ)
+	@echo "Done!"
+
+fclean: clean
+	@echo "Cleaning..."
+	@rm -f $(NAME)
+	@echo "Done!"
+
+re: fclean all
