@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-size_t	ft_strdlen(const char *s, char c)
+size_t	strdlen(const char *s, char c)
 {
 	size_t	i;
 
@@ -22,19 +22,19 @@ size_t	ft_strdlen(const char *s, char c)
 	return (i);
 }
 
-char	*ft_strdup(const char *s1)
+char	*dup_str(const char *s1)
 {
 	char	*cpy;
 	size_t	len;
 
-	len = ft_strdlen(s1, '\0');
+	len = strdlen(s1, '\0');
 	cpy = (char *)malloc((len + 1) * sizeof(char));
 	if (cpy)
-		cpy = ft_strncpy(cpy, s1, len);
+		cpy = copy(cpy, s1, len);
 	return (cpy);
 }
 
-char	*ft_strncpy(char *dst, const char *src, size_t n)
+char	*copy(char *dst, const char *src, size_t n)
 {
 	size_t	i;
 
@@ -48,7 +48,7 @@ char	*ft_strncpy(char *dst, const char *src, size_t n)
 	return (dst);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*joinbuff(char *s1, char *s2)
 {
 	char	*str;
 	size_t	s1_len;
@@ -56,26 +56,26 @@ char	*ft_strjoin(char *s1, char *s2)
 
 	if (!s1 || !s2)
 		return (free(s1), NULL);
-	s1_len = ft_strdlen(s1, '\0');
-	s2_len = ft_strdlen(s2, '\0');
+	s1_len = strdlen(s1, '\0');
+	s2_len = strdlen(s2, '\0');
 	str = (char *)malloc(sizeof(char) * (s1_len + s2_len + 1));
 	if (!str)
 		return (NULL);
-	ft_strncpy(str, s1, s1_len);
-	ft_strncpy(str + s1_len, s2, s2_len);
+	copy(str, s1, s1_len);
+	copy(str + s1_len, s2, s2_len);
 	free(s1);
 	s1 = NULL;
 	return (str);
 }
 
-char	*ft_substr(char *s, size_t start, size_t len)
+char	*shrink(char *s, size_t start, size_t len)
 {
 	char	*str;
 
-	if (!s || start >= ft_strdlen(s, '\0'))
+	if (!s || start >= strdlen(s, '\0'))
 		return (NULL);
 	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (str)
-		str = ft_strncpy(str, s + start, len);
+		str = copy(str, s + start, len);
 	return (str);
 }

@@ -1,18 +1,5 @@
 #include "checker.h"
 
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   parse_args.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: anammal <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/09 19:41:57 by anammal           #+#    #+#             */
-/*   Updated: 2023/06/09 19:42:02 by anammal          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-#include "push_swap.h"
-
 static t_byte	check_dup(int *arr, int target, int last)
 {
 	int	i;
@@ -57,7 +44,7 @@ static t_array	*export_args(t_list **list)
 		return (ft_lstclear(list, free), free(arr), NULL);
 	tmp = *list;
 	status = 1;
-	i = -1;
+	i = 0;
 	while (tmp)
 	{
 		arr->items[i++] = parse_int(tmp->content, &status);

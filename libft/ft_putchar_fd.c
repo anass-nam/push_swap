@@ -1,31 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anammal <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/09 11:58:18 by anammal           #+#    #+#             */
-/*   Updated: 2022/12/09 11:58:21 by anammal          ###   ########.fr       */
+/*   Created: 2022/10/21 02:15:53 by anammal           #+#    #+#             */
+/*   Updated: 2022/10/21 02:15:55 by anammal          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "libft.h"
+#include<fcntl.h>
 
-# include <stdlib.h>
-# include <unistd.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 2
-# endif
-
-char		*get_next_line(int fd);
-//	gnl utils
-size_t		strdlen(const char *s, char c);
-char		*dup_str(const char *s1);
-char		*copy(char *dst, const char *src, size_t n);
-char		*joinbuff(char *s1, char *s2);
-char		*shrink(char *s, size_t start, size_t len);
-
-#endif
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}

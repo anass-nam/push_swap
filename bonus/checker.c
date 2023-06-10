@@ -24,7 +24,7 @@ t_byte	checker_sort(t_stack *s)
 	move = s->moves;
 	while (move)
 	{
-		call(s, move);
+		call(s, *(t_byte *)(move->content));
 		move = move->next;
 	}
 	return (issorted(s));

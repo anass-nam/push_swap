@@ -27,12 +27,12 @@ static char	*init(char *rem)
 
 	if (rem)
 	{
-		l = ft_strdup(rem);
+		l = dup_str(rem);
 		free(rem);
 		rem = NULL;
 	}
 	else
-		l = ft_strdup("");
+		l = dup_str("");
 	return (l);
 }
 
@@ -64,7 +64,7 @@ static char	*readline(char *b, char *l, int fd)
 			break ;
 		else if (rd_status == -1)
 			return (free(line), NULL);
-		line = ft_strjoin(line, b);
+		line = joinbuff(line, b);
 		nl_check = check_nl(line);
 	}
 	return (line);
@@ -85,11 +85,11 @@ char	*get_next_line(int fd)
 	buf = NULL;
 	if (line)
 	{
-		len = ft_strdlen(line, '\n') + 1;
+		len = strdlen(line, '\n') + 1;
 		if (*line)
 		{
-			ret = ft_substr(line, 0, len);
-			buf = ft_substr(line, len, ft_strdlen(line, '\0') - len);
+			ret = shrink(line, 0, len);
+			buf = shrink(line, len, strdlen(line, '\0') - len);
 		}
 		free(line);
 	}

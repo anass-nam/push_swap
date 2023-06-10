@@ -1,0 +1,50 @@
+CC=cc
+CFLAGS=-Werror -Wall -Wextra
+SRC=src
+OBJ=obj
+INC=inc
+NAME=push_swap
+SRCS=$(wildcard $(SRC)/*.c)
+OBJS=$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
+HDRS=$(wildcard $(SRC)/*.h)
+LFTDIR=libft
+LIBFT=libft.a
+LFT= -I./$(LFTDIR) -L./$(LFTDIR) -lft
+BONUS=checker
+BONUSDIR=bonus
+BSRCS=$(wildcard $(BONUSDIR)/*.c)
+BOBJS=$(patsubst $(BONUSDIR)/%.c, $(OBJ)/%.o, $(SRCS))
+BHDRS=$(wildcard $(BONUSDIR)/*.h)
+
+
+
+
+all: $(NAME)
+
+$(NAME): $(OBJ)
+	@echo "Compiling..."
+	@cc $(CFLAGS) $^ -lft -o $@
+	@echo "Done!"
+
+bonus: $(LIBFT) $(BOBJ)
+	@echo "Compiling..."
+	@cc $(CFLAGS) $^ -lft -o $(BNAME)
+	@echo "Done!"
+
+$(OBJ)/%.o: $(SRC)/%.c $(HDRS)
+	@cc $(CFLAGS) -c $< -o $@
+
+$(LIBFT):
+	@make -C $(LFTDIR)
+
+clean:
+	@echo "Cleaning..."
+	@rm -f $(OBJ)
+	@echo "Done!"
+
+fclean: clean
+	@echo "Cleaning..."
+	@rm -f $(NAME)
+	@echo "Done!"
+
+re: fclean all

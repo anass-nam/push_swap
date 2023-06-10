@@ -1,35 +1,37 @@
 #include "checker.h"
 
-static void	tohex(char *move, t_byte hexcode, int len)
+static t_byte isvalid(char *move)
 {
-	ft_bzero(move, len);
-	*move = hexcode;
+	if (!ft_strncmp(move, "ss\n", 3))
+		return (SS);
+	else if (!ft_strncmp(move, "rr\n", 3))
+		return (RR);
+	else if (!ft_strncmp(move, "rrr\n", 4))
+		return (RRR);
+	else if (!ft_strncmp(move, "sa\n", 3))
+		return (SA);
+	else if (!ft_strncmp(move, "sb\n", 3))
+		return (SB);
+	else if (!ft_strncmp(move, "ra\n", 3))
+		return (RA);
+	else if (!ft_strncmp(move, "rb\n", 3))
+		return (RB);
+	else if (!ft_strncmp(move, "rra\n", 4))
+		return (RRA);
+	else if (!ft_strncmp(move, "rrb\n", 4))
+		return (RRB);
+	else if (!ft_strncmp(move, "pa\n", 3))
+		return (PA);
+	else if (!ft_strncmp(move, "pb\n", 3))
+		return (PB);
+	return (0);
 }
 
-static char *isvalid(char *move)
+static char *tohex(char *move)
 {
-	if (ft_strncmp(move, "ss\n", 3))
-		tohex(move, SS, 4);
-	else if (ft_strncmp(move, "rr\n", 3))
-		tohex(move, RR, 4);
-	else if (ft_strncmp(move, "rrr\n", 4))
-		tohex(move, RRR, 5);
-	else if (ft_strncmp(move, "sa\n", 3))
-		tohex(move, SA, 4);
-	else if (ft_strncmp(move, "sb\n", 3))
-		tohex(move, SB, 4);
-	else if (ft_strncmp(move, "ra\n", 3))
-		tohex(move, RA, 4);
-	else if (ft_strncmp(move, "rb\n", 3))
-		tohex(move, RB, 4);
-	else if (ft_strncmp(move, "rra\n", 4))
-		tohex(move, RRA, 5);
-	else if (ft_strncmp(move, "rrb\n", 4))
-		tohex(move, RRB, 5);
-	else if (ft_strncmp(move, "pa\n", 3))
-		tohex(move, PA, 4);
-	else if (ft_strncmp(move, "pb\n", 3))
-		tohex(move, PB, 4);
+	*move = isvalid(move);
+	ft_bzero(move + 1, ft_strlen(move + 1));
+	return (move);
 }
 
 t_list	*get_instructions()
@@ -38,13 +40,17 @@ t_list	*get_instructions()
 	t_list	*tmp;
 	char	*move;
 
+	list = NULL;
 	move = "";
 	while (move)
 	{
+		tmp = NULL;
 		move = get_next_line(STDIN_FILENO);
 		if (move)
 		{
-			tmp = ft_lstnew(isvalid(move));
+			move = tohex(move);
+			if (*move)
+				tmp = ft_lstnew(move);
 			if (tmp == NULL)
 				return (ft_lstclear(&list, free), free(move), NULL);
 			ft_lstadd_back(&list, tmp);
