@@ -2,5 +2,6 @@
 *.dSYM/
 *.o
 a.out
+checker
 push_swap
 .DS_Store
