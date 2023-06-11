@@ -40,3 +40,21 @@ t_byte	checker_sort(t_stack *s)
 	}
 	return (issorted(s));
 }
+
+	//	to fix
+/*
+	./checker "4 7 1 0"
+	pb
+	pb
+	pb
+	pb
+	bn
+	OK
+
+	./checker 4 7 1 0
+	pb
+	pb
+	pb
+	pbOK
+
+*/

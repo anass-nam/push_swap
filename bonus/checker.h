@@ -12,7 +12,7 @@
 #ifndef CHECKER_H
 # define CHECKER_H
 
-# include "libft.h"
+# include "../libft/libft.h"
 # include "get_next_line.h"
 
 # define OK 0x27	// sorted

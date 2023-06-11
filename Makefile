@@ -57,4 +57,6 @@ fclean: clean
 	@echo "$(CLR)$(R)push_swap has been completely cleaned.$(NC)"
 	@rm -f $(NAME) $(BNAME)
 
+re: fclean all
+
 .PHONY: all bonus clean fclean re

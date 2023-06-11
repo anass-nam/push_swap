@@ -11,6 +11,17 @@
 /* ************************************************************************** */
 #include "push_swap.h"
 
+static t_byte	issorted(t_array *a)
+{
+	int	i;
+
+	i = 0;
+	while (++i < a->size)
+		if (a->items[i - 1] > a->items[i])
+			return (0);
+	return (1);
+}
+
 static t_byte	locate(int *arr, int target)
 {
 	int	i;
@@ -72,12 +83,11 @@ void	push_swap(t_stack *s)
 	int	*top;
 
 	top = s->a->items;
-	if (s->a->size == 1)
+	if (s->a->size == 1 || issorted(s->a))
 		return ;
 	else if (s->a->size == 2)
 	{
-		if (top[0] > top[1])
-			call(s, SA);
+		call(s, SA);
 		return ;
 	}
 	divide_items(s);
