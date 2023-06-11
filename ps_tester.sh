@@ -1,3 +1,14 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    ps_tester.sh                                       :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: anammal <marvin@42.fr>                     +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/06/11 02:45:11 by anammal           #+#    #+#              #
+#    Updated: 2023/06/11 02:45:16 by anammal          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 #!/bin/bash
 
 if [ "$#" -eq 0 ] || ! [[ $1 =~ ^[0-9]+$ ]] || ! [[ ${2:-1} =~ ^[0-9]+$ ]] || [ $1 -lt 2 ]; then
@@ -10,16 +21,21 @@ input_size=$1
 num_tests=${2:-1}
 GREEN='\033[0;32m'
 RED='\033[0;31m'
-NC='\033[0m' # No Color
-if [ "$(uname)" == "Linux" ]; then
-    CHECKER="./tool/checker_linux"
+WBG='\033[47m'
+NC='\033[0m'
+if [ "$(ls | grep checker)" == "Linux" ]; then
+    CHECKER="./checker"
 else
-    CHECKER="./tool/checker_Mac"
+    if [ "$(uname)" == "Linux" ]; then
+        CHECKER="./tool/checker_linux"
+    else
+        CHECKER="./tool/checker_Mac"
+    fi
 fi
-echo -e "test\tInput\tmoves\tChecker\tExec time\tMem leak"
+echo -e "${WBG}test\tInput\tmoves\tChecker\tExec time\tMem leak${NC}"
 for ((i = 1; i <= num_tests; i++)); do
     ARG=$(ruby -e "puts (((-($input_size / 2)))..(($input_size / 2 - 1))).to_a.shuffle.join(' ')")
-    moves=$(./push_swap $ARG | wc -l)
+    moves=$(./push_swap $ARG | wc -l | tr -d ' ')
     checker_output=$(./push_swap $ARG | $CHECKER $ARG)
     exec_time=$((time ./push_swap $ARG) 2>&1 | grep real | cut -d 'm' -f2)
     leak_output=$(valgrind --leak-check=full ./push_swap $ARG 2>&1 >/dev/null)

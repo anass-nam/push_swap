@@ -20,33 +20,29 @@ R=\033[1;31m
 G=\033[1;32m
 Y=\033[1;33m
 NC=\033[1;0m
+CLR=\033[2J\033[u
 
 all: $(NAME)
-	@clear
-	@echo "$(G)The compilation of $(NAME) was successful.$(NC)"
+	@echo "$(CLR)$(G)The compilation of $(NAME) was successful.$(NC)"
 
 $(NAME): $(OBJS)
 	@ar rcs $@ $(OBJS)
 
 bonus: $(BOBJS)
-	@clear
-	@echo "$(G)The compilation of libft (bonus) was successful.$(NC)"
+	@echo "$(CLR)$(G)The compilation of $(NAME) (bonus) was successful.$(NC)"
 	@ar rcs $(NAME) $(BOBJS)
 
 %.o: %.c $(NAME:.a=.h)
-	@echo "$(Y) Compiling: $< ... Done$(NC)!"
+	@echo "$(CLR)$(Y) Compiling: $< ... Done$(NC)!"
 	@cc $(CFLAGS) -c $<
-	@clear
 
 clean:
-	@clear
-	@echo "$(R)The object file has been cleaned.$(NC)"
+	@echo "$(CLR)$(R)The object file has been cleaned.$(NC)"
 	@rm -f $(OBJS)
 	@rm -f $(BOBJS)
 
 fclean: clean
-	@clear
-	@echo "$(R)The libft library has been completely cleaned.$(NC)"
+	@echo "$(CLR)$(R)The libft library has been completely cleaned.$(NC)"
 	@rm -f $(NAME)
 
 re: fclean all

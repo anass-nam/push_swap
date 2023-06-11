@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.h                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anammal <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/11 01:59:51 by anammal           #+#    #+#             */
+/*   Updated: 2023/06/11 01:59:55 by anammal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #ifndef CHECKER_H
 # define CHECKER_H
 
@@ -37,7 +48,7 @@ typedef struct s_stack
 typedef unsigned char	t_byte;
 
 t_array	*parse_args(int count, char const **args);
-t_list	*get_instructions();
+t_list	*get_instructions(void);
 void	call(t_stack *s, t_byte move);
 t_byte	checker_sort(t_stack *s);
 

@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker_reader.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anammal <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/11 02:00:45 by anammal           #+#    #+#             */
+/*   Updated: 2023/06/11 02:00:59 by anammal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "checker.h"
 
-static t_byte isvalid(char *move)
+static t_byte	isvalid(char *move)
 {
 	if (!ft_strncmp(move, "ss\n", 3))
 		return (SS);
@@ -27,14 +38,14 @@ static t_byte isvalid(char *move)
 	return (0);
 }
 
-static char *tohex(char *move)
+static char	*tohex(char *move)
 {
 	*move = isvalid(move);
 	ft_bzero(move + 1, ft_strlen(move + 1));
 	return (move);
 }
 
-t_list	*get_instructions()
+t_list	*get_instructions(void)
 {
 	t_list	*list;
 	t_list	*tmp;

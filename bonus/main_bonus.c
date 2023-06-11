@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anammal <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/11 02:44:50 by anammal           #+#    #+#             */
+/*   Updated: 2023/06/11 02:44:54 by anammal          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 #include "checker.h"
 
 static void	checker_exit(t_stack *stack, t_byte option)
@@ -24,7 +35,7 @@ static void	checker_exit(t_stack *stack, t_byte option)
 		exit(EXIT_FAILURE);
 }
 
-static void checker_init(t_stack *s, int ac, char const **av)
+static void	checker_init(t_stack *s, int ac, char const **av)
 {
 	s->a = parse_args(ac, av);
 	if (s->a == NULL)
