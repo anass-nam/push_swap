@@ -51,5 +51,6 @@ t_array	*parse_args(int count, char const **args);
 t_list	*get_instructions(void);
 void	call(t_stack *s, t_byte move);
 t_byte	checker_sort(t_stack *s);
+t_byte	issorted(t_stack *s);
 
 #endif

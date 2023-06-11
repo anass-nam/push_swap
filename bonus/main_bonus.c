@@ -33,6 +33,8 @@ static void	checker_exit(t_stack *stack, t_byte option)
 		ft_putendl_fd("OK", STDOUT_FILENO);
 	if (option & 0x40)
 		exit(EXIT_FAILURE);
+	else
+		exit(EXIT_SUCCESS);
 }
 
 static void	checker_init(t_stack *s, int ac, char const **av)
@@ -49,7 +51,9 @@ static void	checker_init(t_stack *s, int ac, char const **av)
 		checker_exit(s, ERR & ~(0x4));
 	s->b->size = 0;
 	s->moves = get_instructions();
-	if (s->moves == NULL)
+	if (s->moves == NULL && issorted(s))
+		checker_exit(s, OK & ~0x4);
+	else if (s->moves == NULL)
 		checker_exit(s, ERR & ~(0x4));
 }
 

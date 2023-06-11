@@ -18,7 +18,7 @@ OBJ=$(SRC:.c=.o)
 BSRC=$(wildcard bonus/*.c)
 BOBJ=$(BSRC:.c=.o)
 CC=cc
-CFLAGS=-Werror -Wall -Wextra
+CFLAGS= -g -Werror -Wall -Wextra
 LFTDIR=libft
 LIBFT=$(LFTDIR:=.a)
 LFT= -I$(LFTDIR) -L$(LFTDIR) -lft
@@ -30,14 +30,14 @@ NC=\033[1;0m
 CLR=\033[2J\033[u
 
 all: $(NAME)
-	@echo "$(CLR)$(G)The compilation of $(NAME) was successful.$(NC)"
-
-
+	
 $(NAME): $(LIBFT) $(OBJ) $(HEADER)
 	@$(CC) $(CFLAGS) $(OBJ) $(LFT) -o $@
+	@echo "$(CLR)$(G)The compilation of $@ was successful.$(NC)"
 
 bonus: $(LIBFT) $(BOBJ) $(BHEADER)
 	@$(CC) $(CFLAGS) $(BOBJ) $(LFT) -o $(BNAME)
+	@echo "$(CLR)$(G)The compilation of $(BNAME) was successful.$(NC)"
 
 $(LIBFT):
 	@make -C $(LFTDIR)

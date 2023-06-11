@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "checker.h"
 
-static t_byte	issorted(t_stack *s)
+t_byte	issorted(t_stack *s)
 {
 	int	*top;
 	int	i;

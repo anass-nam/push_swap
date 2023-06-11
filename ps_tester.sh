@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -9,7 +11,6 @@
 #    Updated: 2023/06/11 02:45:16 by anammal          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-#!/bin/bash
 
 if [ "$#" -eq 0 ] || ! [[ $1 =~ ^[0-9]+$ ]] || ! [[ ${2:-1} =~ ^[0-9]+$ ]] || [ $1 -lt 2 ]; then
     echo "USAGE: $0 [input size] [number of tests] args must be digits!"
@@ -23,7 +24,7 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 WBG='\033[47m'
 NC='\033[0m'
-if [ "$(ls | grep checker)" == "Linux" ]; then
+if [ "$(ls | grep checker)" == "checker" ]; then
     CHECKER="./checker"
 else
     if [ "$(uname)" == "Linux" ]; then
@@ -49,11 +50,9 @@ for ((i = 1; i <= num_tests; i++)); do
         [[ "$leak_bytes" == "0" ]] &&
         { [[ $input_size -eq 3 && $moves -lt 3 ]] ||
         [[ $input_size -eq 5 && $moves -lt 13 ]] ||
-        [[ $input_size -le 100 && $moves -lt 701 ]] ||
-        [[ $input_size -le 500 && $moves -lt 5500 ]]; }; then
+        [[ $input_size -eq 100 && $moves -lt 701 ]] ||
+        [[ $input_size -eq 500 && $moves -lt 5501 ]]; }; then
         color_code=$GREEN
     fi
     echo -e "${i}>\t${color_code}$input_size\t$moves\t$checker_output\t$exec_time\t\t$leak_bytes${NC}"
 done
-
-
