@@ -51,10 +51,10 @@ static void	checker_init(t_stack *s, int ac, char const **av)
 		checker_exit(s, ERR & ~(0x4));
 	s->b->size = 0;
 	s->moves = get_instructions();
-	if (s->moves == NULL && issorted(s))
-		checker_exit(s, OK & ~0x4);
-	else if (s->moves == NULL)
-		checker_exit(s, ERR & ~(0x4));
+	// if (s->moves == NULL && issorted(s))
+	// 	checker_exit(s, OK & ~(0x4));
+	// if (s->moves == NULL)
+	// 	checker_exit(s, ERR & ~(0x4));
 }
 
 int	main(int ac, char const **av)

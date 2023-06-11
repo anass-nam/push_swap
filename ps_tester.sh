@@ -56,3 +56,7 @@ for ((i = 1; i <= num_tests; i++)); do
     fi
     echo -e "${i}>\t${color_code}$input_size\t$moves\t$checker_output\t$exec_time\t\t$leak_bytes${NC}"
 done
+
+if [ "$CHECKER" == "./checker" ]; then
+    ./check_tester.sh
+fi

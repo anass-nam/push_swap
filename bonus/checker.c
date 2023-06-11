@@ -25,6 +25,8 @@ t_byte	issorted(t_stack *s)
 		if (i == s->a->size)
 			return (OK);
 	}
+	if (s->moves == NULL)
+		return (ERR);
 	return (KO);
 }
 
