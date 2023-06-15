@@ -16,25 +16,22 @@ t_byte	issorted(t_stack *s)
 	int	*top;
 	int	i;
 
-	top = s->a->items;
-	i = 1;
 	if (s->b->size == 0)
 	{
-		while (i < s->a->size && top[i - 1] < top[i])
-			i++;
-		if (i == s->a->size)
-			return (OK);
+		top = s->a->items;
+		i = 0;
+		while (++i < s->a->size)
+			if (top[i - 1] > top[i])
+				return (KO);
 	}
-	if (s->moves == NULL)
-		return (ERR);
-	return (KO);
+	return (OK);
 }
 
 t_byte	checker_sort(t_stack *s)
 {
 	t_list	*move;
 
-	move = s->moves;
+	move = s->moves->next;
 	while (move)
 	{
 		call(s, *(t_byte *)(move->content));
@@ -42,21 +39,3 @@ t_byte	checker_sort(t_stack *s)
 	}
 	return (issorted(s));
 }
-
-	//	to fix
-/*
-	./checker "4 7 1 0"
-	pb
-	pb
-	pb
-	pb
-	bn
-	OK
-
-	./checker 4 7 1 0
-	pb
-	pb
-	pb
-	pbOK
-
-*/

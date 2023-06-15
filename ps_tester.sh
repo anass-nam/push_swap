@@ -24,7 +24,7 @@ GREEN='\033[0;32m'
 RED='\033[0;31m'
 WBG='\033[47m'
 NC='\033[0m'
-if [ "$(ls | grep checker)" == "checker" ]; then
+if [ "$(ls checker 2>&1)" == "checker" ]; then
     CHECKER="./checker"
 else
     if [ "$(uname)" == "Linux" ]; then
@@ -36,9 +36,9 @@ fi
 echo -e "${WBG}test\tInput\tmoves\tChecker\tExec time\tMem leak${NC}"
 for ((i = 1; i <= num_tests; i++)); do
     ARG=$(ruby -e "puts (((-($input_size / 2)))..(($input_size / 2 - 1))).to_a.shuffle.join(' ')")
-    moves=$(./push_swap $ARG | wc -l | tr -d ' ')
-    checker_output=$(./push_swap $ARG | $CHECKER $ARG)
-    exec_time=$((time ./push_swap $ARG) 2>&1 | grep real | cut -d 'm' -f2)
+    moves=$(./push_swap $ARG 2>&1 | wc -l | tr -d ' ')
+    checker_output=$(./push_swap $ARG 2>&1 | $CHECKER $ARG 2>&1)
+    exec_time=$((time ./push_swap $ARG 2>&1) 2>&1 | grep real | cut -d 'm' -f2)
     leak_output=$(valgrind --leak-check=full ./push_swap $ARG 2>&1 >/dev/null)
     leak_bytes=$(echo "$leak_output" | grep "definitely lost:" | awk '{print $4}')
     if [[ -z $leak_bytes ]]; then
@@ -48,7 +48,8 @@ for ((i = 1; i <= num_tests; i++)); do
     if [[ "$checker_output" == "OK" ]] &&
         (( $(bc <<< "${exec_time%*s} < 0.050") )) &&
         [[ "$leak_bytes" == "0" ]] &&
-        { [[ $input_size -eq 3 && $moves -lt 3 ]] ||
+        { [[ $input_size -eq 2 && $moves -lt 2 ]] ||
+        [[ $input_size -eq 3 && $moves -lt 3 ]] ||
         [[ $input_size -eq 5 && $moves -lt 13 ]] ||
         [[ $input_size -eq 100 && $moves -lt 701 ]] ||
         [[ $input_size -eq 500 && $moves -lt 5501 ]]; }; then
@@ -58,5 +59,5 @@ for ((i = 1; i <= num_tests; i++)); do
 done
 
 if [ "$CHECKER" == "./checker" ]; then
-    ./check_tester.sh
+    ./checker_tester.sh
 fi

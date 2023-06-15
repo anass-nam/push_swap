@@ -11,11 +11,19 @@ check_args() {
     local mychkr=$(./push_swap $arg 2>&1 | ./checker $arg 2>&1)
     local color_code=$RED
 
+    if [[ "$chkr" == "" ]]; then
+        chkr="Null"
+    fi
+
+    if [[ "$mychkr" == "" ]]; then
+        mychkr="Null"
+    fi
+
     if [[ "$chkr" == "$mychkr" ]]; then
         color_code=$GREEN
     fi
 
-    echo -e "${WBG}$2 \t\t${NC}=>\tchecker: ${color_code}$chkr${NC}\t|\tmy checker: ${color_code}$mychkr${NC}"
+    echo -e "${WBG}$2\t${NC}=>\tchecker: ${color_code}$chkr${NC}\t|\tmy checker: ${color_code}$mychkr${NC}"
 }
 
 # already sorted
@@ -44,11 +52,11 @@ check_args "$ARG" "500 Not sorted"
 
 # invalid args case
 ARG="1 2, 3"
-check_args "$ARG" "Invalid args case"
+check_args "$ARG" "Invalid args"
 
 # duplicated args case
 ARG="1 2 3 1"
-check_args "$ARG" "Duplicated args case"
+check_args "$ARG" "Duplicated args"
 
 # no args case
-check_args "" "No args case"
+check_args "" "No args\t"

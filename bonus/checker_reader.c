@@ -51,9 +51,9 @@ t_list	*get_instructions(void)
 	t_list	*tmp;
 	char	*move;
 
-	list = NULL;
+	list = ft_lstnew(NULL);
 	move = "";
-	while (move)
+	while (move && list)
 	{
 		tmp = NULL;
 		move = get_next_line(STDIN_FILENO);

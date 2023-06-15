@@ -21,7 +21,7 @@ static t_byte	check_dup(int *arr, int target, int last)
 	return (i != last);
 }
 
-static int	parse_int(char	*item, int *status)
+static int		parse_int(char	*item, int *status)
 {
 	int		parsed;
 	int		iszero;
@@ -66,7 +66,7 @@ static t_array	*export_args(t_list **list)
 	return (ft_lstclear(list, free), arr);
 }
 
-static void	add_to_list(t_list **item, char **args)
+static void		add_to_list(t_list **item, char **args)
 {
 	t_list	*new;
 
