@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "checker.h"
 
-static t_byte	check_dup(int *arr, int target, int last)
+static t_byte	check_dup(int *arr, int target, int last) // detect duplicated numbers
 {
 	int	i;
 
@@ -21,7 +21,7 @@ static t_byte	check_dup(int *arr, int target, int last)
 	return (i != last);
 }
 
-static int		parse_int(char	*item, int *status)
+static int		parse_int(char	*item, int *status)	// parse and check input validity
 {
 	int		parsed;
 	int		iszero;
@@ -39,7 +39,7 @@ static int		parse_int(char	*item, int *status)
 	return (parsed);
 }
 
-static t_array	*export_args(t_list **list)
+static t_array	*export_args(t_list **list)	// linked list to custom array
 {
 	t_array	*arr;
 	t_list	*tmp;
@@ -66,7 +66,7 @@ static t_array	*export_args(t_list **list)
 	return (ft_lstclear(list, free), arr);
 }
 
-static void		add_to_list(t_list **item, char **args)
+static void		add_to_list(t_list **item, char **args)	// build list from cmd line input
 {
 	t_list	*new;
 
@@ -85,7 +85,7 @@ static void		add_to_list(t_list **item, char **args)
 	}
 }
 
-t_array	*parse_args(int count, char const **args)
+t_array	*parse_args(int count, char const **args)	// parser ingine 
 {
 	t_list	*item;
 	char	**tmp;

@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "checker.h"
 
-static void	push(t_array *from, t_array *to)
+static void	push(t_array *from, t_array *to)	// pop from stack to push onto other
 {
 	if (from->size > 0)
 	{
@@ -23,7 +23,7 @@ static void	push(t_array *from, t_array *to)
 	}
 }
 
-static void	rotate(t_array *s, t_byte d)
+static void	rotate(t_array *s, t_byte d)	// rotate stack in tow direction
 {
 	int	top;
 
@@ -44,7 +44,7 @@ static void	rotate(t_array *s, t_byte d)
 	}
 }
 
-static void	swap(t_array *s)
+static void	swap(t_array *s)	// swap top two elemts of a stack
 {
 	if (s->size > 1)
 	{
@@ -54,7 +54,7 @@ static void	swap(t_array *s)
 	}
 }
 
-void	call(t_stack *s, t_byte move)
+void	call(t_stack *s, t_byte move)	// caller engine
 {
 	if (move & SA)
 		swap(s->a);

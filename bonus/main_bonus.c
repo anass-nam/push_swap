@@ -13,57 +13,42 @@
 
 static void	checker_exit(t_stack *stack, t_byte option)
 {
-	if (option & 0x1)
-	{
+	if (option & 0x1)	// free int arr
 		free(stack->a->items);
+	if (option & 0x2)	// free stack a
 		free(stack->a);
-	}
-	if (option & 0x2)
-	{
+	if (option & 0x4)	// free int arr
 		free(stack->b->items);
+	if (option & 0x8)	// free stack b
 		free(stack->b);
-	}
-	if (option & 0x4)
-		ft_lstclear(&(stack->moves), free);
-	if (option & 0x8)
-		ft_putendl_fd("Error", STDERR_FILENO);
-	else if (option & 0x10)
-		ft_putendl_fd("KO", STDOUT_FILENO);
-	else if (option & 0x20)
-		ft_putendl_fd("OK", STDOUT_FILENO);
-	if (option & 0x40)
+	if (option & 0x40)	// error occured (status 1)
+	{
+		ft_putendl_fd("ERROR", STDERR_FILENO);
 		exit(EXIT_FAILURE);
-	else
-		exit(EXIT_SUCCESS);
+	}
+	if (option & 0x10)	// sorted
+		ft_putendl_fd("OK", STDOUT_FILENO);
+	if (option & 0x20)	// unsorted
+		ft_putendl_fd("KO", STDOUT_FILENO);
 }
 
-static void	checker_init(t_stack *s, int ac, char const **av)
-{
-	s->a = parse_args(ac, av);
-	if (s->a == NULL)
-		checker_exit(s, ERR & ~(0x1 | 0x2 | 0x4));
-	s->max = s->a->size;
-	s->b = (t_array *)malloc(sizeof(t_array));
-	if (s->b == NULL)
-		checker_exit(s, ERR & ~(0x2 | 0x4));
-	s->b->items = (int *)malloc(s->max * sizeof(int));
-	if (s->b->items == NULL)
-		checker_exit(s, ERR & ~(0x4));
-	s->b->size = 0;
-	s->moves = get_instructions();
-	if (s->moves == NULL)
-		checker_exit(s, ERR & ~(0x4));
-}
-
-int	main(int ac, char const **av)
+int	main(int ac, char const **av)	// main engine of all engines... haha
 {
 	t_stack	stack;
-	t_byte	status;
 
 	if (ac < 2)
 		return (0);
-	checker_init(&stack, ac - 1, av + 1);
-	status = checker_sort(&stack);
-	checker_exit(&stack, status);
+	stack.a = parse_args(ac - 1, av + 1);
+	if (stack.a == NULL)
+		checker_exit(&stack, ERR  & ~(0x1 | 0x2 | 0x4 | 0x8));
+	stack.max = stack.a->size;
+	stack.b = (t_array *)malloc(sizeof(t_array));
+	if (stack.b == NULL)
+		checker_exit(&stack, ERR  & ~(0x4 | 0x8));
+	stack.b->items = (int *)malloc(stack.max * sizeof(int));
+	if (stack.b->items == NULL)
+		checker_exit(&stack, ERR  & ~(0x8));
+	stack.b->size = 0;
+	checker_exit(&stack, checker_sorter(&stack));
 	return (0);
 }
